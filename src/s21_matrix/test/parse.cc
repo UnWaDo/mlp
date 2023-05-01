@@ -103,3 +103,21 @@ TEST(Matrix, parse_4x3_where_with_spaces) {
   // then
   EXPECT_EQ(exp, returned);
 }
+
+TEST(Matrix, parse_throw_empty) {
+
+  // given
+  auto data = "";
+
+  // when then
+  ASSERT_ANY_THROW(Matrix::parse(data));
+}
+
+TEST(Matrix, parse_throw_not_digit) {
+
+  // given
+  auto data = "abc";
+
+  // when then
+  ASSERT_ANY_THROW(Matrix::parse(data));
+}

@@ -9,16 +9,6 @@ float* Matrix::operator[](int i) const {
   return _data + i * _n;
 }
 
-//float* Matrix::operator[](int i) const {
-//
-//  return _data + i * _n;
-//}
-//
-//float& Matrix::operator[](int i) {
-//
-//  return _data[i];
-//}
-
 int Matrix::m() const {
 
   return _m;

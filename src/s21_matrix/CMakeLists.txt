@@ -20,7 +20,6 @@ add_library(
         source/foundation/operator.cc
 
         source/math.cc
-        source/multiply.cc
         source/parse.cc
         source/transpose.cc
         source/transposed.cc
@@ -45,7 +44,6 @@ add_executable(
         test/main/main.cc
 
         test/foundation/accessor.cc
-        test/foundation/copy.cc
         test/foundation/description.cc
         test/foundation/matrix.cc
         test/foundation/operator.cc

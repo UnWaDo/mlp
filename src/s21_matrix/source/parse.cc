@@ -6,6 +6,21 @@
 
 Matrix Matrix::parse(std::string data) {
 
+  if (data.empty()) {
+    throw "empty";
+  }
+
+  for (auto i(0); data[i] != '\0'; i += 1) {
+
+    auto c = data[i];
+    if (std::isdigit(c) || c == ' ' || c == ',' || c == '[' || c == ']' || c == '\n' || c == '-') {
+
+      continue;
+    }
+
+    throw "is not digit";
+  }
+
   auto numberOfM = -1;
   auto numberOfN = 1;
 
