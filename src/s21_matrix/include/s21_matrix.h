@@ -6,6 +6,7 @@
 #define CPP7_MLP_1_S21_MATRIX_H
 
 #include <string>
+#include <cassert>
 
 class Matrix {
  public:
