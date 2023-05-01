@@ -20,7 +20,7 @@ Matrix& Matrix::operator=(const Matrix& other) {
 
 bool Matrix::operator==(const Matrix& other) const {
 
-//  auto abs_error = 1e-6f;
+  auto epsilon = 1e-6f;
 
   if (_m != other.m() || _n != other.n()) {
     return false;
@@ -30,10 +30,8 @@ bool Matrix::operator==(const Matrix& other) const {
 
   for (auto i(0); i < _m; i += 1) {
     for (auto j(0); j < _n; j += 1) {
-//      if (abs(_data[i * _n + j] - other_data[i * _n + j]) <= abs_error) {
-      if (_data[i * _n + j] != other_data[i * _n + j]) {
+      if (abs(_data[i * _n + j] - other_data[i * _n + j]) > epsilon) {
         return false;
-
       }
     }
   }

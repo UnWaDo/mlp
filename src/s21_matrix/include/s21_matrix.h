@@ -23,9 +23,6 @@ class Matrix {
 
   ~Matrix();
 
-//  float* operator[](int) const;
-//  float& operator[](int);
-
   float* operator[](int) const;
 
   [[nodiscard]] int m() const;
