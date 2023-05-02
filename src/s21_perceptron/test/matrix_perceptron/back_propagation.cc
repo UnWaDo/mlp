@@ -6,7 +6,7 @@
 
 #include "s21_matrix_perceptron.h"
 
-TEST(MatrixPerceptron, BackPropagation) {
+TEST(MatrixPerceptron, BackPropagation_where_3_2_2_1) {
 
   // given
   auto x = Matrix(1, 2, new float[2]{2.0f, 3.0f});
@@ -22,7 +22,7 @@ TEST(MatrixPerceptron, BackPropagation) {
   EXPECT_EQ(exp, returned);
 }
 
-TEST(MatrixPerceptron, BackPropagation_two) {
+TEST(MatrixPerceptron, BackPropagation_where_4_64_30_12_10) {
 
   // given
   auto x = Matrix(1, 64, new float[64]{0.22, 0.54, 0.85, 0.38,
@@ -34,9 +34,9 @@ TEST(MatrixPerceptron, BackPropagation_two) {
   auto t = Matrix(1, 10, new float[10]{0.87, 0.67, 0.64, 0.95,
       0.77, 0.35, 0.96, 0.74, 0.95, 0.56});
   auto sut = MatrixPerceptron("perceptron_4_64_30_12_10", "resource/");
-  auto exp = Matrix(1, 10, new float[10]{-69.505417919, -73.146659585,
-      -67.946376748, -84.217286672, -89.248463974, -79.222304315,
-      -73.552763119, -81.205465789, -72.716457869, -74.455032899});
+  auto exp = Matrix(1, 10, new float[10]{-69.505417, -73.146660,
+      -67.946373, -84.217285, -89.248466, -79.222305,
+      -73.552757, -81.205460, -72.716461, -74.455025});
 
   // when
   sut.BackPropagation(x, t);

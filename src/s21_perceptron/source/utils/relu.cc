@@ -5,33 +5,43 @@
 #include "s21_utils.h"
 #include <cmath>
 
-Matrix s21::Relu(const Matrix& a) {
+Matrix s21::Relu(const Matrix& matrix) {
 
-  auto c = Matrix(a.m(), a.n());
+  assert(matrix.m() == 1);
 
-  for (auto i(0); i < a.n(); i += 1) {
+  auto n = matrix.n();
+  auto matrix_data = matrix.data();
 
-    c[0][i] = Relu(a[0][i]);
+  auto data = new float[n];
+
+  for (auto j(0); j < n; j += 1) {
+
+    data[j] = Relu(matrix_data[j]);
   }
 
-  return c;
+  return {1, n, data};
+}
+
+Matrix s21::DerivedRelu(const Matrix& matrix) {
+
+  assert(matrix.m() == 1);
+
+  auto n = matrix.n();
+  auto matrix_data = matrix.data();
+
+  auto data = new float[n];
+
+  for (auto j(0); j < n; j += 1) {
+
+    data[j] = DerivedRelu(matrix_data[j]);
+  }
+
+  return {1, n, data};
 }
 
 float s21::Relu(float value) {
 
   return value > 0 ? value : 0;
-}
-
-Matrix s21::DerivedRelu(const Matrix& a) {
-
-  auto c = Matrix(a.m(), a.n());
-
-  for (auto i(0); i < a.n(); i += 1) {
-
-    c[0][i] = DerivedRelu(a[0][i]);
-  }
-
-  return c;
 }
 
 float s21::DerivedRelu(float value) {

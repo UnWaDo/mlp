@@ -24,7 +24,6 @@ MatrixPerceptron::MatrixPerceptron(const std::string& name, const std::string& p
   _h = new Matrix[_number_of_layers];
   _t = new Matrix[_number_of_layers];
 
-//  _dE_dt = new Matrix[_number_of_layers];
   _dE_dW = new Matrix[_number_of_layers];
   _dE_db = new Matrix[_number_of_layers];
 }

@@ -5,6 +5,8 @@
 #include <vector>
 #include "s21_matrix.h"
 
+using uint = unsigned;
+
 namespace s21 {
   class Image {
   public:
