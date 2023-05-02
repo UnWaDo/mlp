@@ -13,7 +13,8 @@ Matrix Matrix::parse(std::string data) {
   for (auto i(0); data[i] != '\0'; i += 1) {
 
     auto c = data[i];
-    if (std::isdigit(c) || c == ' ' || c == ',' || c == '[' || c == ']' || c == '\n' || c == '-') {
+    if (std::isdigit(c) || c == ' ' || c == ',' || c == '.' ||
+        c == '[' || c == ']' || c == '\n' || c == '-') {
 
       continue;
     }

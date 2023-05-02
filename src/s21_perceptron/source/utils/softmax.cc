@@ -5,22 +5,26 @@
 #include "s21_utils.h"
 #include <cmath>
 
-Matrix s21::Softmax(const Matrix& a) {
+Matrix s21::Softmax(const Matrix& matrix) {
 
-  auto n = a.m();
-  auto c = Matrix(a.m(), n);
+  assert(matrix.m() == 1);
+
+  auto n = matrix.n();
+  auto matrix_data = matrix.data();
+
+  auto data = new float[n];
   auto sum = 0.0f;
 
-  for (auto i(0); i < n; i += 1) {
+  for (auto j(0); j < n; j += 1) {
 
-    c[0][i] = exp(a[0][i]);
-    sum += c[0][i];
+    data[j] = exp(matrix_data[j]);
+    sum += data[j];
   }
 
-  for (auto i(0); i < n; i += 1) {
+  for (auto j(0); j < n; j += 1) {
 
-    c[0][i] /= sum;
+    data[j] /= sum;
   }
 
-  return c;
+  return {1, n, data};
 }

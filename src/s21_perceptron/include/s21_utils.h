@@ -10,12 +10,15 @@
 namespace s21 {
 
 Matrix Relu(const Matrix&);
-float Relu(float);
 Matrix DerivedRelu(const Matrix&);
+float Relu(float);
 float DerivedRelu(float);
 
 Matrix Sigmoid(const Matrix&);
+Matrix DerivedSigmoid(const Matrix&);
 float Sigmoid(float);
+float DerivedSigmoid(float);
+
 Matrix Softmax(const Matrix&);
 
 }

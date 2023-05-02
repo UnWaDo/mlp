@@ -8,8 +8,19 @@
 
 void GraphPerceptron::ExportPerceptronToFile(const std::string& name,
                                              const std::string& path) {
-
   auto bundle = path + name + "/";
+
+  auto status = std::filesystem::create_directory(path);
+
+  if (!status) {
+    throw "lol";
+  }
+
+  status = std::filesystem::create_directory(bundle);
+
+  if (!status) {
+    throw "lol";
+  }
 
   export_info(bundle);
   export_layer(bundle, "weight.txt", _W);
@@ -17,12 +28,6 @@ void GraphPerceptron::ExportPerceptronToFile(const std::string& name,
 }
 
 void GraphPerceptron::export_info(const std::string& bundle) const {
-
-  auto status = std::filesystem::create_directory(bundle);
-
-  if (!status) {
-    throw "lol";
-  }
 
   auto info_file = std::ofstream(bundle + "info.txt");
 

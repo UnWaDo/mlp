@@ -50,16 +50,25 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 add_executable(
-        test_s21_perceptron
+        test_s21_matrix_perceptron
         test/main/main.cc
-
-        test/graph_perceptron/back_propagation.cc
-        test/graph_perceptron/export_perceptron_to_file.cc
-        test/graph_perceptron/forward_propagation.cc
 
         test/matrix_perceptron/back_propagation.cc
         test/matrix_perceptron/export_perceptron_to_file.cc
         test/matrix_perceptron/forward_propagation.cc
+)
+
+target_link_libraries(
+        test_s21_matrix_perceptron
+        GTest::gtest_main
+
+        s21_perceptron
+        s21_matrix
+)
+
+add_executable(
+        test_s21_utils
+        test/main/main.cc
 
         test/utils/relu.cc
         test/utils/sigmoid.cc
@@ -67,7 +76,24 @@ add_executable(
 )
 
 target_link_libraries(
-        test_s21_perceptron
+        test_s21_utils
+        GTest::gtest_main
+
+        s21_perceptron
+        s21_matrix
+)
+
+add_executable(
+        test_s21_graph_perceptron
+        test/main/main.cc
+
+        test/graph_perceptron/back_propagation.cc
+        test/graph_perceptron/export_perceptron_to_file.cc
+        test/graph_perceptron/forward_propagation.cc
+)
+
+target_link_libraries(
+        test_s21_graph_perceptron
         GTest::gtest_main
 
         s21_perceptron
@@ -75,6 +101,8 @@ target_link_libraries(
 )
 
 include(GoogleTest)
-gtest_discover_tests(test_s21_perceptron)
+gtest_discover_tests(test_s21_utils)
+gtest_discover_tests(test_s21_matrix_perceptron)
+gtest_discover_tests(test_s21_graph_perceptron)
 
 file(COPY test/resource DESTINATION .)
