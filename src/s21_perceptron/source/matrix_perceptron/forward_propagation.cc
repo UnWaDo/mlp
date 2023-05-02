@@ -19,6 +19,6 @@ Matrix MatrixPerceptron::ForwardPropagation(const Matrix& x) {
   auto last_layer = _number_of_hidden_layers - 1;
   auto z = _h[last_layer] * _W[last_layer + 1] + _b[last_layer + 1];
 
-//  return s21::Softmax(z);
+ return s21::Softmax(z);
   return z;
 }

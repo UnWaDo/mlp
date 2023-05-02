@@ -70,6 +70,7 @@ void MatrixPerceptron::parse_info(const std::string& bundle) {
   } else if (_activation_name == "Sigmoid") {
 
     _activation = s21::Sigmoid;
+    _derivedActivation = s21::DerivedSigmoid;
 
   } else {
 

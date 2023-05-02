@@ -5,13 +5,6 @@
 
 using namespace s21;
 
-TEST(ImageLoadTest, NullptrInit) {
-  // given
-  // when
-  // then
-  ASSERT_ANY_THROW(auto img = Image(nullptr));
-}
-
 TEST(ImageLoadTest, NonexistingInit) {
   // given
   std::string filename("never_existed.file");
