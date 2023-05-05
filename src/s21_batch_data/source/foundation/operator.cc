@@ -55,6 +55,7 @@ namespace s21 {
       return in;
   }
 }
+
 using namespace s21;
 
 MetricValues& MetricValues::operator+=(MetricValues &other){
@@ -94,7 +95,7 @@ void PredictionResult::AddResult(std::size_t target_class, Matrix &result) {
   }
 }
 
-void s21::PredictionResult::AddResult(std::size_t target_class, std::size_t result_class) {
+void PredictionResult::AddResult(std::size_t target_class, std::size_t result_class) {
   if ((target_class >= false_negatives.size()) ||
       (result_class >= false_negatives.size()))
     throw std::runtime_error("Invalid shape of input data");

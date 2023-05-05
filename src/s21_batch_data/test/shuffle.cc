@@ -3,8 +3,6 @@
 #include "s21_perceptron.h"
 #include "s21_matrix_perceptron.h"
 
-#include <iostream>
-
 using namespace s21;
 
 TEST_F(BatchDataTest, TestRandomShuffle) {

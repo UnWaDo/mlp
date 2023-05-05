@@ -2,8 +2,6 @@
 
 using namespace s21;
 
-#include <iostream>
-
 std::size_t BatchData::Predict(Perceptron &Perceptron, std::size_t id) {
   auto data = GetSample(id);
   auto result = Perceptron.ForwardPropagation(data.input);
