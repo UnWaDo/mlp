@@ -20,6 +20,19 @@ TEST(Matrix, is_equal) {
   EXPECT_TRUE(returned);
 }
 
+TEST(Matrix, is_equal_floats) {
+  auto lhs = Matrix::parse(
+      "[[1.1, 2.01],"
+      " [3.001, 4.0001]]");
+  auto rhs = Matrix::parse(
+      "[[1.1, 2.01],"
+      " [3.001, 4.0001]]");
+
+  auto returned = lhs == rhs;
+
+  EXPECT_TRUE(returned);
+}
+
 TEST(Matrix, is_not_equal_because_of_m) {
   auto lhs = Matrix::parse(
       "[[1, 2],"
@@ -62,6 +75,19 @@ TEST(Matrix, is_not_equal_because_of_value) {
   auto rhs = Matrix::parse(
       "[[1, 2],"
       " [9, 3]]");
+
+  auto returned = lhs == rhs;
+
+  EXPECT_FALSE(returned);
+}
+
+TEST(Matrix, is_not_equal_because_of_value_floats) {
+  auto lhs = Matrix::parse(
+      "[[1.1, 2.1],"
+      " [2.0, 3.1]]");
+  auto rhs = Matrix::parse(
+      "[[1.01, 2.1],"
+      " [2.0, 3.1]]");
 
   auto returned = lhs == rhs;
 

@@ -3,6 +3,7 @@
 //
 
 #include "s21_matrix.h"
+#include <cmath>
 
 std::ostream& operator<<(std::ostream& stream, const Matrix& matrix) {
 
@@ -30,7 +31,7 @@ bool Matrix::operator==(const Matrix& other) const {
 
   for (auto i(0); i < _m; i += 1) {
     for (auto j(0); j < _n; j += 1) {
-      if (abs(_data[i * _n + j] - other_data[i * _n + j]) > epsilon) {
+      if (std::abs(_data[i * _n + j] - other_data[i * _n + j]) > epsilon) {
         return false;
       }
     }
