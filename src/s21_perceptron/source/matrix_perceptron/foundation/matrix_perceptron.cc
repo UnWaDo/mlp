@@ -9,7 +9,49 @@
 #include "s21_utils.h"
 
 MatrixPerceptron::MatrixPerceptron(const s21::Perceptron::Parameters& parameters) {
-  (void)parameters;
+
+  _number_of_layers = parameters.number_of_layers;
+  _number_of_hidden_layers = _number_of_layers > 2 ? _number_of_layers - 2 : 0;
+  _number_of_neurons_in_layers = new int[_number_of_layers];
+
+  for (auto i(0); i < _number_of_layers; i += 1) {
+
+    _number_of_neurons_in_layers[i] = parameters.number_of_neurons_in_layer[i];
+  }
+
+  _alpha = parameters.alpha;
+
+  _activation_name = parameters.activation_name;
+
+  if (_activation_name == "Relu") {
+
+    _activation = s21::Relu;
+    _derivedActivation = s21::DerivedRelu;
+
+  } else if (_activation_name == "Sigmoid") {
+
+    _activation = s21::Sigmoid;
+    _derivedActivation = s21::DerivedSigmoid;
+
+  } else {
+
+    throw "lol";
+  }
+
+  _W = new Matrix[_number_of_layers - 1];
+  _b = new Matrix[_number_of_layers - 1];
+
+  for (auto i(0); i < _number_of_layers - 1; i += 1) {
+
+    _W[i] = s21::RandomMatrix(_number_of_neurons_in_layers[i], _number_of_neurons_in_layers[i + 1]);
+    _b[i] = s21::RandomMatrix(1, _number_of_neurons_in_layers[i + 1]);
+  }
+
+  _h = new Matrix[_number_of_layers];
+  _t = new Matrix[_number_of_layers];
+
+  _dE_dW = new Matrix[_number_of_layers];
+  _dE_db = new Matrix[_number_of_layers];
 }
 
 MatrixPerceptron::MatrixPerceptron(const std::string& name, const std::string& path) {
@@ -70,6 +112,7 @@ void MatrixPerceptron::parse_info(const std::string& bundle) {
   } else if (_activation_name == "Sigmoid") {
 
     _activation = s21::Sigmoid;
+    _derivedActivation = s21::DerivedSigmoid;
 
   } else {
 
@@ -117,4 +160,16 @@ Matrix* MatrixPerceptron::parse_layer(const std::string& bundle,
 
 MatrixPerceptron::MatrixPerceptron(const MatrixPerceptron& other) {
   (void)other;
+}
+
+MatrixPerceptron::~MatrixPerceptron() {
+
+  delete[] _W;
+  delete[] _b;
+
+  delete[] _h;
+  delete[] _t;
+
+  delete[] _dE_dW;
+  delete[] _dE_db;
 }

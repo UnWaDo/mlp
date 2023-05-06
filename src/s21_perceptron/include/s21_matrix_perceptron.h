@@ -14,6 +14,8 @@ class MatrixPerceptron: public s21::Perceptron {
   MatrixPerceptron(const std::string& name, const std::string& path = "./");
   MatrixPerceptron(const MatrixPerceptron&);
 
+  ~MatrixPerceptron();
+
   Matrix ForwardPropagation(const Matrix& input) override;
 
   void BackPropagation(const Matrix& x, const Matrix& t) override;

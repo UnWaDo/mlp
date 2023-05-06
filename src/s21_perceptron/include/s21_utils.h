@@ -9,6 +9,8 @@
 
 namespace s21 {
 
+Matrix RandomMatrix(int m, int n);
+
 Matrix Relu(const Matrix&);
 Matrix DerivedRelu(const Matrix&);
 float Relu(float);
