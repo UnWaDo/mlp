@@ -29,6 +29,7 @@ add_library(
         source/matrix_perceptron/export_perceptron_to_file.cc
         source/matrix_perceptron/forward_propagation.cc
 
+        source/utils/random.cc
         source/utils/relu.cc
         source/utils/sigmoid.cc
         source/utils/softmax.cc
@@ -53,6 +54,8 @@ add_executable(
         test_s21_matrix_perceptron
         test/main/main.cc
 
+        test/matrix_perceptron/foundation/matrix_perceptron.cc
+
         test/matrix_perceptron/back_propagation.cc
         test/matrix_perceptron/export_perceptron_to_file.cc
         test/matrix_perceptron/forward_propagation.cc
@@ -70,6 +73,7 @@ add_executable(
         test_s21_utils
         test/main/main.cc
 
+        test/utils/random.cc
         test/utils/relu.cc
         test/utils/sigmoid.cc
         test/utils/softmax.cc
