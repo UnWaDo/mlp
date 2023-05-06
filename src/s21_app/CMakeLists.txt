@@ -17,6 +17,7 @@ find_package(Qt6 COMPONENTS
         Core
         Gui
         Widgets
+        Multimedia
         REQUIRED)
 
 add_executable(
@@ -33,6 +34,7 @@ target_link_libraries(
         Qt6::Core
         Qt6::Gui
         Qt6::Widgets
+        Qt6::Multimedia
 
         s21_batch_data
         s21_image
@@ -46,4 +48,4 @@ include_directories(include)
 include_directories(../s21_batch_data/include)
 include_directories(../s21_image/include)
 include_directories(../s21_matrix/include)
-include_directories(../s21_perceptrom/include)
+include_directories(../s21_perceptron/include)

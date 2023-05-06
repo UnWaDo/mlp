@@ -10,13 +10,13 @@ void MatrixPerceptron::ExportPerceptronToFile(const std::string& name,
                                               const std::string& path) {
   auto bundle = path + name + "/";
 
-  auto status = std::filesystem::create_directory(path);
+//  auto status = std::filesystem::create_directory(path);
+//
+//  if (!status) {
+//    throw "lol";
+//  }
 
-  if (!status) {
-    throw "lol";
-  }
-
-  status = std::filesystem::create_directory(bundle);
+  auto status = std::filesystem::create_directory(bundle);
 
   if (!status) {
     throw "lol";
