@@ -52,6 +52,7 @@ namespace s21 {
       void ShuffleData();
       std::size_t Predict(Perceptron& Perceptron, std::size_t id);
       void Train(Perceptron& perceptron);
+      void Train(Perceptron& perceptron, void (*f)(std::size_t e, MetricValues m));
       void Train(Perceptron& perceptron, std::size_t k, std::size_t batch_id);
       MetricValues Validate(Perceptron& perceptron);
       MetricValues Validate(Perceptron& perceptron, std::size_t start_id, std::size_t end_id);
