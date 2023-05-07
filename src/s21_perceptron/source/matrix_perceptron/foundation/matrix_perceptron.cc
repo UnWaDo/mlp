@@ -63,11 +63,11 @@ MatrixPerceptron::MatrixPerceptron(const std::string& name, const std::string& p
   _W = parse_layer(bundle, "weight.txt");
   _b = parse_layer(bundle, "bias.txt");
 
-  _h = new Matrix[_number_of_layers];
-  _t = new Matrix[_number_of_layers];
+  _h = new Matrix[_number_of_layers - 1];
+  _t = new Matrix[_number_of_layers - 1];
 
-  _dE_dW = new Matrix[_number_of_layers];
-  _dE_db = new Matrix[_number_of_layers];
+  _dE_dW = new Matrix[_number_of_layers - 1];
+  _dE_db = new Matrix[_number_of_layers - 1];
 }
 
 void MatrixPerceptron::parse_info(const std::string& bundle) {
@@ -130,7 +130,7 @@ void MatrixPerceptron::parse_info(const std::string& bundle) {
 Matrix* MatrixPerceptron::parse_layer(const std::string& bundle,
                                       const std::string& filename) const {
 
-  auto array_of_matrices = new Matrix[_number_of_layers];
+  auto array_of_matrices = new Matrix[_number_of_layers - 1];
 
   for (auto i(0); i < _number_of_layers - 1; i += 1) {
 

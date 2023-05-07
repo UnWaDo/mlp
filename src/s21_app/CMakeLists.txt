@@ -8,10 +8,17 @@ project(s21_app)
 add_definitions("-Wall -Wextra -Werror -std=c++17")
 
 set(CMAKE_CXX_STANDARD 17)
+cmake_policy(SET CMP0135 NEW)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
+
+include_directories(include)
+include_directories(../s21_batch_data/include)
+include_directories(../s21_image/include)
+include_directories(../s21_matrix/include)
+include_directories(../s21_perceptron/include)
 
 find_package(Qt6 COMPONENTS
         Core
@@ -38,8 +45,8 @@ target_link_libraries(
 
         s21_batch_data
         s21_image
-        s21_matrix
         s21_perceptron
+        s21_matrix
 )
 
 

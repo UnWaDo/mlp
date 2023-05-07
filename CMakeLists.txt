@@ -8,6 +8,7 @@ project(CPP7_MLP-1)
 add_definitions("-Wall -Wextra -Werror -std=c++17")
 
 set(CMAKE_CXX_STANDARD 17)
+cmake_policy(SET CMP0135 NEW)
 
 enable_testing()
 

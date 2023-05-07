@@ -6,7 +6,7 @@
 
 #include "s21_matrix.h"
 
-Matrix::Matrix() = default;
+Matrix::Matrix() : _data(new float[0]) { }
 
 Matrix::Matrix(int m, int n): _m(m), _n(n), _data(new float[m * n]) { }
 

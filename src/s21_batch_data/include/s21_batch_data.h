@@ -11,69 +11,93 @@
 # define DEFAULT_MAX_STEPS  100
 
 namespace s21 {
+
   struct DataSample {
+
     DataSample(Matrix& input, std::size_t target);
+    DataSample(const Matrix& input, std::size_t target);
+
     Matrix GetTargetRepresentation(std::size_t classes_number);
-    Matrix& input;
+
+    const Matrix& input;
     std::size_t target;
   };
 
   struct PredictionResult {
+
     PredictionResult(std::size_t classes_number);
+
     void AddResult(std::size_t target_class, Matrix& result);
     void AddResult(std::size_t target_class, std::size_t result_class);
+
     std::vector<std::size_t> true_positives;
     std::vector<std::size_t> true_negatives;
     std::vector<std::size_t> false_positives;
     std::vector<std::size_t> false_negatives;
-    friend std::ostream& operator<<(std::ostream& out, PredictionResult& bd);
+
+    friend std::ostream& operator<<(std::ostream&, PredictionResult&);
   };
 
   struct MetricValues {
+
     MetricValues();
     MetricValues(PredictionResult& result);
+
     float accuracy;
     float precision;
     float recall;
     float f_measure;
-    std::time_t time_spent;
-    MetricValues& operator+=(MetricValues& other);
-    MetricValues& operator/=(std::size_t& other);
-    friend std::ostream& operator<<(std::ostream& out, MetricValues& bd);
+
+    MetricValues& operator+=(MetricValues&);
+    MetricValues& operator/=(std::size_t&);
+
+    friend std::ostream& operator<<(std::ostream&, MetricValues&);
   };
 
   class BatchData {
+
     public:
+
       BatchData(std::size_t classes_number, std::size_t input_length);
       BatchData(const std::string& filename);
 
       void LoadData(const std::string& path);
       void PurgeData();
       void ShuffleData();
-      std::size_t Predict(Perceptron& Perceptron, std::size_t id);
-      void Train(Perceptron& perceptron);
-      void Train(Perceptron& perceptron, void (*f)(std::size_t e, MetricValues m));
-      void Train(Perceptron& perceptron, std::size_t k, std::size_t batch_id);
-      MetricValues Validate(Perceptron& perceptron);
-      MetricValues Validate(Perceptron& perceptron, std::size_t start_id, std::size_t end_id);
-      MetricValues KCrossValidation(Perceptron& perceptron, std::size_t k);
-      std::size_t GetClassesNumber();
-      std::size_t GetInputLength();
-      DataSample GetRandomSample();
-      std::size_t GetDataSize();
-      std::size_t GetMaxSteps();
-      DataSample GetSample(std::size_t n);
+
+      std::size_t Predict(Perceptron&, std::size_t id) const;
+
+      void Train(Perceptron&) const;
+      void Train(Perceptron&, void (*reporter)(std::size_t e, MetricValues m)) const;
+      void Train(Perceptron&, std::size_t k, std::size_t batch_id) const;
+
+      MetricValues Validate(Perceptron&) const;
+      MetricValues Validate(Perceptron&, std::size_t start_id, std::size_t end_id) const;
+      MetricValues KCrossValidation(Perceptron&, std::size_t k);
+
+      std::size_t GetClassesNumber() const;
+      std::size_t GetInputLength() const;
+
+      DataSample GetRandomSample() const;
+
+      std::size_t GetDataSize() const;
+      std::size_t GetMaxSteps() const;
+
+      DataSample GetSample(std::size_t n) const;
+
       void SetMaxSteps(std::size_t max_steps);
+
       friend std::ifstream& operator>>(std::ifstream& in, BatchData& bd);
 
     private:
       std::vector<std::size_t> indices_;
       std::vector<Matrix> input_data_;
       std::vector<std::size_t> classes_;
+
       std::size_t classes_number_;
       std::size_t input_length_;
       std::size_t max_steps_;
   };
 }
 
-#endif
+#endif // CPP7_MLP_1_SRC_S21_BATCH_DATA_INCLUDE_BATCH_DATA_H_
