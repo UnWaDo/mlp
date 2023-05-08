@@ -4,6 +4,7 @@
 # include <string>
 # include <vector>
 # include <fstream>
+# include <functional>
 # include "s21_perceptron.h"
 # include "s21_matrix.h"
 # include <ctime>
@@ -68,7 +69,7 @@ namespace s21 {
       std::size_t Predict(Perceptron&, std::size_t id) const;
 
       void Train(Perceptron&) const;
-      void Train(Perceptron&, void (*reporter)(std::size_t e, MetricValues m)) const;
+      void Train(Perceptron& perceptron, std::function<void(std::size_t, MetricValues)> f) const;
       void Train(Perceptron&, std::size_t k, std::size_t batch_id) const;
 
       MetricValues Validate(Perceptron&) const;

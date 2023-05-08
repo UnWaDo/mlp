@@ -19,7 +19,7 @@ void BatchData::Train(Perceptron &perceptron) const {
   }
 }
 
-void BatchData::Train(Perceptron& perceptron, void (*f)(std::size_t e, MetricValues m)) const {
+void BatchData::Train(Perceptron& perceptron, std::function<void(std::size_t, MetricValues)> f) const {
   auto classes_number = GetClassesNumber();
 
   for (std::size_t epoch = 0; epoch < max_steps_; epoch++) {
