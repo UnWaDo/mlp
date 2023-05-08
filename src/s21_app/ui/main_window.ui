@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>s21::MainWindow</class>
+ <widget class="QWidget" name="s21::MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>366</width>
+    <height>522</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="LabelDataDescription">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Данные отсутствуют</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignHCenter|Qt::AlignTop</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="ButtonLoadData">
+     <property name="text">
+      <string>Загрузить данные</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="ButtonCleanData">
+     <property name="text">
+      <string>Очистить данные</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="LabelPerceptronDescription">
+     <property name="text">
+      <string>Здесь будут параметры перцептрона</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignHCenter|Qt::AlignTop</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="ButtonImportParameters">
+     <property name="text">
+      <string>Загрузить параметры перцептрона</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="ButtonChangeParameters">
+     <property name="text">
+      <string>Изменить параметры перцептрона</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="ButtonExportParameters">
+     <property name="text">
+      <string>Сохранить параметры пецептрона</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="LabelValidationDescription">
+     <property name="text">
+      <string>Запустите валидацию для обновления данных</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignHCenter|Qt::AlignTop</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="ButtonStartValidation">
+     <property name="text">
+      <string>Запустить валидацию</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="ButtonStartTraining">
+     <property name="text">
+      <string>Запустить обучение</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

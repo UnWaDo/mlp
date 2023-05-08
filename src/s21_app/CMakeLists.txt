@@ -13,6 +13,7 @@ cmake_policy(SET CMP0135 NEW)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOUIC_SEARCH_PATHS ui/)
 
 include_directories(include)
 include_directories(../s21_batch_data/include)
@@ -34,9 +35,17 @@ add_executable(
         source/main/main.cc
 )
 
+add_library(
+        s21_windows
+
+        source/s21_windows.cc
+        ui/main_window.ui
+        include/s21_windows.h
+)
+
 target_link_libraries(
 
-        s21_app
+        s21_windows
 
         Qt6::Core
         Qt6::Gui
@@ -49,10 +58,18 @@ target_link_libraries(
         s21_matrix
 )
 
+target_link_libraries(
 
-include_directories(include)
+        s21_app
 
-include_directories(../s21_batch_data/include)
-include_directories(../s21_image/include)
-include_directories(../s21_matrix/include)
-include_directories(../s21_perceptron/include)
+        Qt6::Core
+        Qt6::Gui
+        Qt6::Widgets
+        Qt6::Multimedia
+
+        s21_windows
+        s21_batch_data
+        s21_image
+        s21_perceptron
+        s21_matrix
+)
