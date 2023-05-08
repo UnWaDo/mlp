@@ -19,6 +19,8 @@ class Perceptron {
     std::string activation_name;
   };
 
+  virtual ~Perceptron() {};
+
   virtual Matrix ForwardPropagation(const Matrix& input) = 0;
 
   virtual void BackPropagation(const Matrix& x, const Matrix& t) = 0;
