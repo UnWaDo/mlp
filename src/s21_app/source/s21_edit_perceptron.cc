@@ -1,0 +1,68 @@
+#include <QLineEdit>
+#include <QRegularExpressionValidator>
+#include <QErrorMessage>
+
+#include "s21_windows.h"
+#include "s21_matrix_perceptron.h"
+#include "s21_graph_perceptron.h"
+#include "ui_edit_perceptron.h"
+
+s21::EditPerceptronWindow::EditPerceptronWindow(QWidget *parent)
+    : QDialog(parent)
+    , re_("^([1-9][0-9]* *)+$") {
+
+  ui_ = new s21::Ui::EditPerceptronWindow;
+  ui_->setupUi(this);
+
+  QObject::connect(ui_->ButtonBoxSubmit, &QDialogButtonBox::accepted,
+                   this, &s21::EditPerceptronWindow::accept);
+
+  QObject::connect(ui_->ButtonBoxSubmit, &QDialogButtonBox::rejected,
+                   this, &s21::EditPerceptronWindow::reject);
+
+  auto v = new QRegularExpressionValidator(this);
+
+  v->setRegularExpression(re_);
+  ui_->LineEditLayers->setValidator(v);
+
+}
+
+s21::EditPerceptronWindow::~EditPerceptronWindow() { }
+
+void s21::EditPerceptronWindow::accept() {
+
+  if (!ui_->LineEditLayers->hasAcceptableInput()) {
+
+    QErrorMessage msg(this);
+    msg.showMessage("Ах, какие данные");
+    return ;
+  }
+
+  std::string type;
+  if (ui_->RadioButtonMatrix->isChecked())
+    type = "Matrix";
+  else
+    type = "Graph";
+  
+  Perceptron::Parameters params;
+  params.activation_name = "Sigmoid";
+  params.alpha = ui_->SpinBoxAlpha->value();
+  
+  params.number_of_layers = 2;
+  for (auto w : re_.globalMatch(ui_->LineEditLayers->text()))
+    params.number_of_layers++;
+
+  params.number_of_neurons_in_layer = new int[params.number_of_layers];
+
+  params.number_of_neurons_in_layer[0] = 784;
+  int i = 1;
+  for (auto w : re_.globalMatch(ui_->LineEditLayers->text())) {
+
+    params.number_of_neurons_in_layer[i] = w.captured().toInt();
+    i++;
+  }
+  params.number_of_neurons_in_layer[params.number_of_layers - 1] = 26;
+
+  emit ModificationFinished(params, type);
+  QDialog::accept();
+}

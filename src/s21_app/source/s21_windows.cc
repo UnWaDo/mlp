@@ -33,20 +33,14 @@ s21::MainModel::~MainModel() {
   delete perceptron_;
 }
 
-void s21::MainModel::SetPerceptronParameters(int layers_n, std::vector<int>& number_of_neurons, float alpha, const std::string& activation_name) {
+void s21::MainModel::SetPerceptronParameters(Perceptron::Parameters& params, std::string_view type) {
 
-  if (perceptron_params_.number_of_layers < layers_n) {
-
+  if (perceptron_params_.number_of_layers) {
     delete[] perceptron_params_.number_of_neurons_in_layer;
-    perceptron_params_.number_of_neurons_in_layer = new int[layers_n];
   }
-  perceptron_params_.number_of_layers = layers_n;
-  for (int i = 0; i < layers_n; i++)
-    perceptron_params_.number_of_neurons_in_layer[i] = number_of_neurons[i];
-  
-  perceptron_params_.alpha = alpha;
-  perceptron_params_.activation_name = activation_name;
-  emit PerceptronModified(perceptron_params_, perceptron_type_);
+  perceptron_params_ = params;
+  perceptron_type_ = type;
+  InitializePerceptron();
 }
 
 void s21::MainModel::InitializePerceptron()
@@ -166,16 +160,15 @@ void s21::MainModel::ExportPerceptron(QString path) {
 }
 
 s21::MainWindow::MainWindow(QWidget *parent) {
-  (void) parent;
 
   auto font = this->font();
   font.setPointSize(16);
   this->setFont(font);
 
-  ui = new s21::Ui::MainWindow;
-  ui->setupUi(this);
+  ui_ = new s21::Ui::MainWindow;
+  ui_->setupUi(this);
 
-  model_ = new s21::MainModel;
+  model_ = new s21::MainModel(parent);
 
   player_ = new QMediaPlayer;
   auto audioOutput = new QAudioOutput;
@@ -184,34 +177,31 @@ s21::MainWindow::MainWindow(QWidget *parent) {
   player_->setSource(QUrl::fromLocalFile("/Users/ivnvtosh/Desktop/done.m4a"));
   audioOutput->setVolume(50);
 
-  this->setWindowTitle("Нейронка)))");
-  this->setGeometry(100, 100, 300, 400);
-
-  QObject::connect(ui->ButtonLoadData, &QPushButton::clicked, [&]{
+  QObject::connect(ui_->ButtonLoadData, &QPushButton::clicked, [&]{
     s21::MainController::LoadData(this, model_);
   });
 
-  QObject::connect(ui->ButtonStartTraining, &QPushButton::clicked, this, [&]{
+  QObject::connect(ui_->ButtonStartTraining, &QPushButton::clicked, this, [&]{
     s21::MainController::LaunchTraining(this, model_);
   });
 
-  QObject::connect(ui->ButtonExportParameters, &QPushButton::clicked, this, [&]{
+  QObject::connect(ui_->ButtonExportParameters, &QPushButton::clicked, this, [&]{
     s21::MainController::ExportPerceptron(this, model_);
   });
 
-  QObject::connect(ui->ButtonImportParameters, &QPushButton::clicked, this, [&]{
+  QObject::connect(ui_->ButtonImportParameters, &QPushButton::clicked, this, [&]{
     s21::MainController::LoadPerceptron(this, model_);
   });
 
-  QObject::connect(ui->ButtonImportParameters, &QPushButton::clicked, this, [&]{
-    s21::MainController::LoadPerceptron(this, model_);
+  QObject::connect(ui_->ButtonChangeParameters, &QPushButton::clicked, this, [&]{
+    s21::MainController::SetPerceptronParameters(this, model_);
   });
 
-  QObject::connect(ui->ButtonStartValidation, &QPushButton::clicked, this, [&]{
+  QObject::connect(ui_->ButtonStartValidation, &QPushButton::clicked, this, [&]{
     s21::MainController::LaunchValidation(this, model_);
   });
 
-  QObject::connect(ui->ButtonCleanData, &QPushButton::clicked, this, [&]{
+  QObject::connect(ui_->ButtonCleanData, &QPushButton::clicked, this, [&]{
     s21::MainController::CleanData(this, model_);
   });
 
@@ -219,12 +209,12 @@ s21::MainWindow::MainWindow(QWidget *parent) {
     QString text;
     QTextStream(&text) << "Данные из файла " << p << "\n"
                        << "загружены, всего " << d.GetDataSize() << " строк";
-    ui->LabelDataDescription->setText(text);
+    ui_->LabelDataDescription->setText(text);
   });
 
   QObject::connect(model_, &MainModel::DataCleaned, [=](BatchData& d){
     (void) d;
-    ui->LabelDataDescription->setText("Данные очищены");
+    ui_->LabelDataDescription->setText("Данные очищены");
   });
 
   QObject::connect(model_, &MainModel::PerceptronModified,
@@ -240,7 +230,7 @@ s21::MainWindow::MainWindow(QWidget *parent) {
     for (int i = 0; i < params.number_of_layers - 1; i++)
       stream << params.number_of_neurons_in_layer[i] << ", ";
     stream << params.number_of_neurons_in_layer[params.number_of_layers - 1];
-    ui->LabelPerceptronDescription->setText(text);
+    ui_->LabelPerceptronDescription->setText(text);
   });
 
   model_->InitializePerceptron();
@@ -252,18 +242,20 @@ s21::MainWindow::MainWindow(QWidget *parent) {
                        << "Прецизионность: " << m.precision << "\n"
                        << "Полнота: " << m.recall << "\n"
                        << "F-мера: " << m.f_measure;
-    ui->LabelValidationDescription->setText(text);
+    ui_->LabelValidationDescription->setText(text);
   });
 }
 
-s21::MainWindow::~MainWindow() {
-  delete player_;
-  delete model_;
-}
+s21::MainWindow::~MainWindow() { }
 
 void s21::MainController::SetPerceptronParameters(s21::MainWindow *w, s21::MainModel *m) {
-  (void) w;
-  (void) m;
+
+  auto edit = new s21::EditPerceptronWindow(w);
+
+  QObject::connect(edit, &s21::EditPerceptronWindow::ModificationFinished,
+                   m, &s21::MainModel::SetPerceptronParameters);
+
+  edit->exec();
 }
 
 void s21::MainController::InitializePerceptron(MainWindow *w, MainModel *m) {

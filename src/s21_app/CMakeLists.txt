@@ -41,6 +41,9 @@ add_library(
         source/s21_windows.cc
         ui/main_window.ui
         include/s21_windows.h
+
+        source/s21_edit_perceptron.cc
+        ui/edit_perceptron.ui
 )
 
 target_link_libraries(

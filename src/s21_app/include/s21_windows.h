@@ -3,6 +3,7 @@
 
 # include <QApplication>
 # include <QWidget>
+# include <QRegularExpression>
 # include <QPushButton>
 # include <QFileDialog>
 # include <QLabel>
@@ -17,6 +18,7 @@
 namespace s21 {
   namespace Ui {
     class MainWindow;
+    class EditPerceptronWindow;
   }
 
   class MainModel : public QObject {
@@ -27,11 +29,8 @@ namespace s21 {
       ~MainModel();
 
     public slots:
-      void SetPerceptronParameters(
-        int layers_n,
-        std::vector<int>& number_of_neurons,
-        float alpha,
-        const std::string& activation_name);
+      void SetPerceptronParameters(Perceptron::Parameters& params,
+                                   std::string_view type);
       void InitializePerceptron();
       void LoadPerceptron(QString path);
       void LoadData(QString path);
@@ -61,9 +60,29 @@ namespace s21 {
       ~MainWindow();
 
     private:
-      Ui::MainWindow *ui;
+      Ui::MainWindow *ui_;
       QMediaPlayer *player_;
       MainModel *model_;
+  };
+
+  class EditPerceptronWindow : public QDialog {
+    Q_OBJECT
+
+    public:
+      EditPerceptronWindow(QWidget *parent = nullptr);
+      ~EditPerceptronWindow();
+
+    public slots:
+      void accept() override;
+
+    signals:
+      void ModificationFinished(
+          Perceptron::Parameters&,
+          std::string_view perceptron_type);
+
+    private:
+      Ui::EditPerceptronWindow *ui_;
+      QRegularExpression re_;
   };
 
   // class SetupWindow : public QWidget {
