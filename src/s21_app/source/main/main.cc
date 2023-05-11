@@ -52,6 +52,7 @@ int main(int argc, char** argv) {
   std::cout << m << std::endl;
   auto start = time(nullptr);
   
+  data.SetMaxSteps(1000);
   data.Train(perceptron, [&](std::size_t e, s21::MetricValues m){
     std::cout << time(nullptr) - start << " " << e << " " << m << std::endl;
   });
