@@ -36,9 +36,10 @@ namespace s21 {
       void LoadPerceptron(QString path);
       void LoadData(QString path);
       void CleanData();
-      void LaunchTraining(std::size_t epochs = 100);
+      void LaunchTraining(std::size_t epochs = 100, bool *do_continue = nullptr);
       void LaunchValidation(float alpha = 1.0, std::size_t iterations = 1);
       void ExportPerceptron(QString path);
+      void StopTraining(bool *controller);
     
     signals:
       void DataLoaded(QString path, BatchData&);

@@ -45,6 +45,10 @@ class Matrix {
   Matrix operator+(const Matrix&) const;
   Matrix operator-(const Matrix&) const;
 
+  Matrix& operator*=(float);
+  Matrix& operator+=(const Matrix&);
+  Matrix& operator-=(const Matrix&);
+
  private:
 
   int _m;

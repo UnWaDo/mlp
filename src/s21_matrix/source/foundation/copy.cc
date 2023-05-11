@@ -6,15 +6,23 @@
 
 void Matrix::copy(const Matrix& other) {
 
+  auto size = other.m() * other.n();
+
+  if (_m * _n < size) {
+
+    if (_data != nullptr)
+      delete[] _data;
+
+    _data = new float[size];
+  }
+
   _m = other.m();
   _n = other.n();
-  _data = new float[_m * _n];
 
   auto other_data = other.data();
 
-  for (auto i = 0; i < _m; i += 1) {
-    for (auto j = 0; j < _n; j += 1) {
-      _data[i * _n + j] = other_data[i * _n + j];
-    }
+  for (auto i = 0; i < size; i++) {
+
+    _data[i] = other_data[i];
   }
 }

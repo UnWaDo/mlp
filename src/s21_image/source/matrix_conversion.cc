@@ -8,7 +8,7 @@ Matrix s21::Image::ToVector() {
   auto data = matrix[0];
   for (std::size_t y = 0; y < height_; y++) {
     for (std::size_t x = 0; x < width_; x++) {
-      data[x + y * width_] = 1.0 * GetPixel(x, y) / max_color;
+      data[x * height_ + y] = 1.0 - 1.0 * GetPixel(x, y) / max_color;
     }
   }
   return matrix;

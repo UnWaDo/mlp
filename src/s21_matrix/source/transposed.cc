@@ -6,6 +6,12 @@
 
 void Matrix::transposed() {
 
+  if (_m == 1 || _n == 1) {
+
+    std::swap(_m, _n);
+    return ;
+  }
+
   auto data = _data;
 
   _data = new float[_m * _n];

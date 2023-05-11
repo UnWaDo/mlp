@@ -98,3 +98,43 @@ Matrix Matrix::operator-(const Matrix& other) const {
 
   return {_m, _n, data};
 }
+
+Matrix& Matrix::operator*=(float v) {
+
+  auto size = _m * _n;
+
+  for (auto i(0); i < size; i += 1) {
+      _data[i] *= v;
+  }
+
+  return *this;
+}
+
+Matrix& Matrix::operator+=(const Matrix &b) {
+  assert(_m == b.m());
+  assert(_n == b.n());
+
+  auto size = _m * _n;
+  auto b_data = b.data();
+
+  for (auto i(0); i < size; i += 1) {
+    _data[i] += b_data[i];
+  }
+
+  return *this;
+}
+
+Matrix& Matrix::operator-=(const Matrix &b) {
+
+  assert(_m == b.m());
+  assert(_n == b.n());
+
+  auto size = _m * _n;
+  auto b_data = b.data();
+
+  for (auto i(0); i < size; i += 1) {
+    _data[i] -= b_data[i];
+  }
+
+  return *this;
+}

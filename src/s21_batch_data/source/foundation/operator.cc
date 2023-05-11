@@ -63,6 +63,8 @@ namespace s21 {
       bd.input_data_.emplace_back(1, (int) bd.input_length_);
       bd.indices_.push_back(bd.indices_.size());
 
+      auto data = bd.input_data_.back().data();
+
       for (std::size_t i = 0; i < bd.input_length_; i++) {
 
         uint value = 1000;
@@ -72,7 +74,7 @@ namespace s21 {
           throw std::runtime_error("Error during line parsing");
         }
 
-        bd.input_data_.back()[0][i] = 1.0 * value / 255;
+        data[i] = 1.0 * value / 255;
       }
 
       return in;

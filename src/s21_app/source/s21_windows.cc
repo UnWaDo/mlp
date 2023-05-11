@@ -46,7 +46,7 @@ void s21::MainModel::SetPerceptronParameters(Perceptron::Parameters& params, std
 void s21::MainModel::InitializePerceptron()
 {
 
-  Perceptron *new_perceptron;
+  Perceptron *new_perceptron = nullptr;
 
   if (perceptron_type_ == "Matrix")
     new_perceptron = new MatrixPerceptron(perceptron_params_);
@@ -81,6 +81,7 @@ void s21::MainModel::LoadPerceptron(QString path) {
   delete perceptron_;
   perceptron_ = new_perceptron;
 
+  std::cout << "modified" << std::endl;
   emit PerceptronModified(perceptron_params_, perceptron_type_);
   // emit PerceptronReloaded(perceptron_);
 }
@@ -109,13 +110,8 @@ void s21::MainModel::CleanData() {
   emit DataCleaned(data_);
 }
 
-void s21::MainModel::LaunchTraining(std::size_t epochs)
+void s21::MainModel::LaunchTraining(std::size_t epochs, bool *do_continue)
 {
-
-  std::cout << "Старт" << std::endl;
-
-  auto metric = data_.Validate(*perceptron_);
-  std::cout << metric << std::endl;
 
   data_.SetMaxSteps(epochs);
 
@@ -124,11 +120,7 @@ void s21::MainModel::LaunchTraining(std::size_t epochs)
   data_.Train(*perceptron_, [&](std::size_t e, s21::MetricValues m){
     std::cout << e << " " << m << std::endl;
     emit TrainingIteration(e, m);
-  });
-  std::cout << "Готово" << std::endl;
-
-  metric = data_.Validate(*perceptron_);
-  std::cout << metric << std::endl;
+  }, do_continue);
 }
 
 void s21::MainModel::LaunchValidation(float alpha, std::size_t iterations) {
@@ -164,6 +156,10 @@ void s21::MainModel::ExportPerceptron(QString path) {
     return ;
   }
   // emit PerceptronExported(path);
+}
+
+void s21::MainModel::StopTraining(bool *controller) {
+  *controller = false;
 }
 
 s21::MainWindow::MainWindow(QWidget *parent) {
@@ -307,11 +303,19 @@ void s21::MainController::LaunchTraining(MainWindow *w, MainModel *m) {
 
   training->SetIterationsNumber(w->GetTrainingEpochs());
 
+  bool *do_continue = new bool;
+  *do_continue = true;
+
   QObject::connect(m, &s21::MainModel::TrainingIteration,
                    training, &s21::ProgressWindow::ProcessIteration);
 
+  QObject::connect(training, &s21::ProgressWindow::destroyed,
+                   w, [&](){
+                    *do_continue = false;
+                   });
+
   std::thread myThread([&](){
-    m->LaunchTraining(w->GetTrainingEpochs());
+    m->LaunchTraining(w->GetTrainingEpochs(), do_continue);
   });
   myThread.detach();
 

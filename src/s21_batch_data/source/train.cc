@@ -2,24 +2,26 @@
 
 using namespace s21;
 
-void BatchData::Train(Perceptron &perceptron) const {
+// void BatchData::Train(Perceptron &perceptron) const {
 
-  auto classes_number = GetClassesNumber();
+//   auto classes_number = GetClassesNumber();
 
-  for (std::size_t steps = 0; steps < max_steps_; steps++) {
+//   for (std::size_t steps = 0; steps < max_steps_; steps++) {
 
-    for (std::size_t i = 0; i < GetDataSize(); i++) {
-      auto sample = GetSample(i);
+//     for (std::size_t i = 0; i < GetDataSize(); i++) {
+//       auto sample = GetSample(i);
 
-      perceptron.BackPropagation(
-        sample.input,
-        sample.GetTargetRepresentation(classes_number)
-      );
-    }
-  }
-}
+//       perceptron.BackPropagation(
+//         sample.input,
+//         sample.GetTargetRepresentation(classes_number)
+//       );
+//     }
+//   }
+// }
 
-void BatchData::Train(Perceptron& perceptron, std::function<void(std::size_t, MetricValues)> f) const {
+void BatchData::Train(Perceptron& perceptron,
+                      std::function<void(std::size_t, MetricValues)> f,
+                      bool *do_continue) const {
   auto classes_number = GetClassesNumber();
 
   for (std::size_t epoch = 0; epoch < max_steps_; epoch++) {
@@ -32,9 +34,24 @@ void BatchData::Train(Perceptron& perceptron, std::function<void(std::size_t, Me
         sample.GetTargetRepresentation(classes_number)
       );
     }
-    auto m = Validate(perceptron);
-    f(epoch + 1, m);
+
+    if (do_continue != nullptr && *do_continue == false) {
+      delete do_continue;
+      return ;
+    }
+
+    if (f != nullptr) {
+
+      auto m = Validate(perceptron);
+      f(epoch + 1, m);
+    }
+
+    if (do_continue != nullptr && *do_continue == false)
+      return ;
   }
+
+  if (do_continue != nullptr)
+    delete do_continue;
 }
 
 void BatchData::Train(Perceptron &perceptron, std::size_t k, std::size_t batch_id) const {

@@ -48,7 +48,7 @@ MetricValues::MetricValues(PredictionResult& result) : MetricValues() {
       accuracy += 1.0 * correct / total;
     if (pred_positives != 0)
       precision += 1.0 * result.true_positives[i] / pred_positives;
-    if (pred_positives != real_positives)
+    if (real_positives != 0)
       recall += 1.0 * result.true_positives[i] / real_positives;
   }
 
@@ -66,7 +66,7 @@ BatchData::BatchData(std::size_t classes_number, std::size_t input_length) {
   max_steps_ = DEFAULT_MAX_STEPS;
 }
 
-BatchData::BatchData(const std::string& filename) {
+BatchData::BatchData(const std::string& filename) : classes_number_(0), input_length_(0) {
 
   LoadData(filename);
   max_steps_ = DEFAULT_MAX_STEPS;
