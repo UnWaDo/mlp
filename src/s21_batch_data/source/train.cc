@@ -33,7 +33,7 @@ void BatchData::Train(Perceptron& perceptron, std::function<void(std::size_t, Me
       );
     }
     auto m = Validate(perceptron);
-    f(epoch, m);
+    f(epoch + 1, m);
   }
 }
 

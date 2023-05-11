@@ -44,6 +44,9 @@ add_library(
 
         source/s21_edit_perceptron.cc
         ui/edit_perceptron.ui
+
+        source/s21_progress_window.cc
+        ui/progress_window.ui
 )
 
 target_link_libraries(

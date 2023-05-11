@@ -19,6 +19,7 @@ namespace s21 {
   namespace Ui {
     class MainWindow;
     class EditPerceptronWindow;
+    class ProgressWindow;
   }
 
   class MainModel : public QObject {
@@ -35,8 +36,8 @@ namespace s21 {
       void LoadPerceptron(QString path);
       void LoadData(QString path);
       void CleanData();
-      void LaunchTraining();
-      void LaunchValidation(float alpha = 1.0);
+      void LaunchTraining(std::size_t epochs = 100);
+      void LaunchValidation(float alpha = 1.0, std::size_t iterations = 1);
       void ExportPerceptron(QString path);
     
     signals:
@@ -44,6 +45,7 @@ namespace s21 {
       void PerceptronModified(Perceptron::Parameters&, std::string_view type);
       void ValidationFinished(std::time_t, MetricValues&);
       void DataCleaned(BatchData&);
+      void TrainingIteration(std::size_t epoch, MetricValues&);
 
     private:
       Perceptron::Parameters perceptron_params_;
@@ -58,6 +60,9 @@ namespace s21 {
     public:
       MainWindow(QWidget *parent = nullptr);
       ~MainWindow();
+
+      std::size_t GetTrainingEpochs() const;
+      std::size_t GetValidationIterations() const;
 
     private:
       Ui::MainWindow *ui_;
@@ -82,7 +87,25 @@ namespace s21 {
 
     private:
       Ui::EditPerceptronWindow *ui_;
-      QRegularExpression re_;
+      QRegularExpression re_field_;
+      QRegularExpression re_token_;
+  };
+
+  class ProgressWindow : public QDialog {
+    Q_OBJECT
+
+    public:
+      ProgressWindow(QWidget *parent = nullptr);
+      ~ProgressWindow();
+
+      void SetIterationsNumber(std::size_t i);
+
+    public slots:
+      void ProcessIteration(std::size_t epoch, MetricValues&);
+
+    private:
+      Ui::ProgressWindow *ui_;
+      std::size_t iterations_;
   };
 
   // class SetupWindow : public QWidget {

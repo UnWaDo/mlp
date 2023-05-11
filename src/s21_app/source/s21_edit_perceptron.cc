@@ -9,7 +9,8 @@
 
 s21::EditPerceptronWindow::EditPerceptronWindow(QWidget *parent)
     : QDialog(parent)
-    , re_("^([1-9][0-9]* *)+$") {
+    , re_field_("^([1-9][0-9]{1,3} *)+$")
+    , re_token_("([1-9][0-9]{1,3})") {
 
   ui_ = new s21::Ui::EditPerceptronWindow;
   ui_->setupUi(this);
@@ -22,7 +23,7 @@ s21::EditPerceptronWindow::EditPerceptronWindow(QWidget *parent)
 
   auto v = new QRegularExpressionValidator(this);
 
-  v->setRegularExpression(re_);
+  v->setRegularExpression(re_field_);
   ui_->LineEditLayers->setValidator(v);
 
 }
@@ -49,14 +50,14 @@ void s21::EditPerceptronWindow::accept() {
   params.alpha = ui_->SpinBoxAlpha->value();
   
   params.number_of_layers = 2;
-  for (auto w : re_.globalMatch(ui_->LineEditLayers->text()))
+  for (auto w : re_token_.globalMatch(ui_->LineEditLayers->text()))
     params.number_of_layers++;
 
   params.number_of_neurons_in_layer = new int[params.number_of_layers];
 
   params.number_of_neurons_in_layer[0] = 784;
   int i = 1;
-  for (auto w : re_.globalMatch(ui_->LineEditLayers->text())) {
+  for (auto w : re_token_.globalMatch(ui_->LineEditLayers->text())) {
 
     params.number_of_neurons_in_layer[i] = w.captured().toInt();
     i++;

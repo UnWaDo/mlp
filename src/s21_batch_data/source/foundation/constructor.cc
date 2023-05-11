@@ -44,16 +44,19 @@ MetricValues::MetricValues(PredictionResult& result) : MetricValues() {
     auto pred_positives = result.true_positives[i] + result.false_positives[i];
     auto real_positives = result.true_positives[i] + result.false_negatives[i];
 
-    accuracy += 1.0 * correct / total;
-    precision += 1.0 * result.true_positives[i] / pred_positives;
-    recall += 1.0 * result.true_positives[i] / real_positives;
-    f_measure = 2.0 * recall * precision / (recall + precision);
+    if (total != 0)
+      accuracy += 1.0 * correct / total;
+    if (pred_positives != 0)
+      precision += 1.0 * result.true_positives[i] / pred_positives;
+    if (pred_positives != real_positives)
+      recall += 1.0 * result.true_positives[i] / real_positives;
   }
 
   accuracy /= classes_amount;
   precision /= classes_amount;
   recall /= classes_amount;
-  f_measure /= classes_amount;
+  if (recall != 0 || precision != 0)
+    f_measure = 2.0 * recall * precision / (recall + precision);
 }
 
 BatchData::BatchData(std::size_t classes_number, std::size_t input_length) {

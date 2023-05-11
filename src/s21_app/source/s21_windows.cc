@@ -109,7 +109,7 @@ void s21::MainModel::CleanData() {
   emit DataCleaned(data_);
 }
 
-void s21::MainModel::LaunchTraining()
+void s21::MainModel::LaunchTraining(std::size_t epochs)
 {
 
   std::cout << "Старт" << std::endl;
@@ -117,14 +117,13 @@ void s21::MainModel::LaunchTraining()
   auto metric = data_.Validate(*perceptron_);
   std::cout << metric << std::endl;
 
-  data_.SetMaxSteps(100);
+  data_.SetMaxSteps(epochs);
 
   std::cout << "Учусь" << std::endl;
 
-  // std::function<void(std::size_t, s21::MetricValues)> f = ;
   data_.Train(*perceptron_, [&](std::size_t e, s21::MetricValues m){
     std::cout << e << " " << m << std::endl;
-    // emit TrainingIteration(e, m);
+    emit TrainingIteration(e, m);
   });
   std::cout << "Готово" << std::endl;
 
@@ -132,13 +131,21 @@ void s21::MainModel::LaunchTraining()
   std::cout << metric << std::endl;
 }
 
-void s21::MainModel::LaunchValidation(float alpha) {
+void s21::MainModel::LaunchValidation(float alpha, std::size_t iterations) {
 
   std::time_t start;
   std::time(&start);
 
   std::size_t end_id = alpha * data_.GetDataSize();
-  auto metric = data_.Validate(*perceptron_, 0, end_id);
+  MetricValues metric;
+  for (std::size_t i = 0; i < iterations; i++) {
+
+    data_.ShuffleData();
+    auto m = data_.Validate(*perceptron_, 0, end_id);
+    metric += m;
+    emit TrainingIteration(i + 1, m);
+  }
+  metric /= iterations;
 
   emit ValidationFinished(std::time(nullptr) - start, metric);
 }
@@ -248,6 +255,14 @@ s21::MainWindow::MainWindow(QWidget *parent) {
 
 s21::MainWindow::~MainWindow() { }
 
+std::size_t s21::MainWindow::GetTrainingEpochs() const {
+  return ui_->SpinBoxTrainingEpochs->value();
+}
+
+std::size_t s21::MainWindow::GetValidationIterations() const {
+  return ui_->SpinBoxValidationRepeats->value();
+}
+
 void s21::MainController::SetPerceptronParameters(s21::MainWindow *w, s21::MainModel *m) {
 
   auto edit = new s21::EditPerceptronWindow(w);
@@ -287,19 +302,42 @@ void s21::MainController::CleanData(MainWindow *w, MainModel *m) {
 }
 
 void s21::MainController::LaunchTraining(MainWindow *w, MainModel *m) {
-  (void) w;
+
+  auto training = new s21::ProgressWindow(w);
+
+  training->SetIterationsNumber(w->GetTrainingEpochs());
+
+  QObject::connect(m, &s21::MainModel::TrainingIteration,
+                   training, &s21::ProgressWindow::ProcessIteration);
+
   std::thread myThread([&](){
-    m->LaunchTraining();
+    m->LaunchTraining(w->GetTrainingEpochs());
   });
   myThread.detach();
+
+  training->exec();
 }
 
 void s21::MainController::LaunchValidation(MainWindow *w, MainModel *m) {
   bool ok = false;
   auto alpha = QInputDialog::getDouble(w, "Введите долю набора данных",
                                        "", 1.0, 0.0, 1.0, 2, &ok);
-  if (ok)
-    m->LaunchValidation(alpha);
+  if (!ok)
+    return ;
+
+  auto validation = new s21::ProgressWindow(w);
+
+  validation->SetIterationsNumber(w->GetValidationIterations());
+
+  QObject::connect(m, &s21::MainModel::TrainingIteration,
+                   validation, &s21::ProgressWindow::ProcessIteration);
+
+  std::thread myThread([&](){
+    m->LaunchValidation(alpha, w->GetValidationIterations());
+  });
+  myThread.detach();
+
+  validation->exec();
 }
 
 void s21::MainController::ExportPerceptron(MainWindow *w, MainModel *m) {
