@@ -2,24 +2,24 @@
 #include <QRegularExpressionValidator>
 #include <QErrorMessage>
 
-#include "s21_windows.h"
+#include "s21_new_perceptron.h"
 #include "s21_matrix_perceptron.h"
 #include "s21_graph_perceptron.h"
-#include "ui_edit_perceptron.h"
+#include "ui_new_perceptron.h"
 
-s21::EditPerceptronWindow::EditPerceptronWindow(QWidget *parent)
+s21::NewPerceptronWindow::NewPerceptronWindow(QWidget *parent)
     : QDialog(parent)
     , re_field_("^([1-9][0-9]{1,3} *)+$")
     , re_token_("([1-9][0-9]{1,3})") {
 
-  ui_ = new s21::Ui::EditPerceptronWindow;
+  ui_ = new s21::Ui::NewPerceptronWindow;
   ui_->setupUi(this);
 
   QObject::connect(ui_->ButtonBoxSubmit, &QDialogButtonBox::accepted,
-                   this, &s21::EditPerceptronWindow::accept);
+                   this, &s21::NewPerceptronWindow::accept);
 
   QObject::connect(ui_->ButtonBoxSubmit, &QDialogButtonBox::rejected,
-                   this, &s21::EditPerceptronWindow::reject);
+                   this, &s21::NewPerceptronWindow::reject);
 
   auto v = new QRegularExpressionValidator(this);
 
@@ -28,9 +28,9 @@ s21::EditPerceptronWindow::EditPerceptronWindow(QWidget *parent)
 
 }
 
-s21::EditPerceptronWindow::~EditPerceptronWindow() { }
+s21::NewPerceptronWindow::~NewPerceptronWindow() { }
 
-void s21::EditPerceptronWindow::accept() {
+void s21::NewPerceptronWindow::accept() {
 
   if (!ui_->LineEditLayers->hasAcceptableInput()) {
 

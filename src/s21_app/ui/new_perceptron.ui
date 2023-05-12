@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>s21::EditPerceptronWindow</class>
- <widget class="QDialog" name="s21::EditPerceptronWindow">
+ <class>s21::NewPerceptronWindow</class>
+ <widget class="QDialog" name="s21::NewPerceptronWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>414</width>
+    <width>743</width>
     <height>300</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>14</pointsize>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Редактирование параметров</string>

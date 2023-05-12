@@ -1,8 +1,0 @@
-//
-// Created by Anton Ivanov on 06.05.2023.
-//
-
-#ifndef CPP7_MLP_1_SRC_S21_APP_INCLUDE_S21_APP_H_
-#define CPP7_MLP_1_SRC_S21_APP_INCLUDE_S21_APP_H_
-
-#endif //CPP7_MLP_1_SRC_S21_APP_INCLUDE_S21_APP_H_

@@ -68,15 +68,18 @@ namespace s21 {
 
       std::size_t Predict(Perceptron&, std::size_t id) const;
 
-      // void Train(Perceptron&) const;
       void Train(Perceptron& perceptron,
                  std::function<void(std::size_t, MetricValues)> f = nullptr,
                  bool *do_continue = nullptr) const;
-      void Train(Perceptron&, std::size_t k, std::size_t batch_id) const;
+      void Train(Perceptron&, std::size_t k, std::size_t batch_id,
+                 std::function<void(std::size_t, MetricValues)> f = nullptr,
+                 bool *do_continue = nullptr) const;
 
       MetricValues Validate(Perceptron&) const;
       MetricValues Validate(Perceptron&, std::size_t start_id, std::size_t end_id) const;
-      MetricValues KCrossValidation(Perceptron&, std::size_t k);
+      MetricValues KCrossValidation(Perceptron&, std::size_t k,
+                                    std::function<void(std::size_t, MetricValues)> f = nullptr,
+                                    bool *do_continue = nullptr);
 
       std::size_t GetClassesNumber() const;
       std::size_t GetInputLength() const;

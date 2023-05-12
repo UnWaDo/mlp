@@ -49,7 +49,9 @@ MetricValues BatchData::Validate(Perceptron &perceptron, std::size_t start_id, s
   return {predicted};
 }
 
-MetricValues s21::BatchData::KCrossValidation(Perceptron &perceptron, std::size_t k) {
+MetricValues s21::BatchData::KCrossValidation(Perceptron &perceptron, std::size_t k,
+                                              std::function<void(std::size_t, MetricValues)> f,
+                                              bool *do_continue) {
 
   if (k == 0 || k > GetDataSize())
     throw std::runtime_error("Invalid k for k-cross validation (must be 0 < k <= data_size)");
@@ -62,7 +64,12 @@ MetricValues s21::BatchData::KCrossValidation(Perceptron &perceptron, std::size_
 
   for (std::size_t batch_id = 0; batch_id < k; batch_id++) {
 
-    Train(perceptron, k, batch_id);
+    Train(perceptron, k, batch_id, nullptr, do_continue);
+
+    if (do_continue != nullptr && *do_continue == false) {
+      delete do_continue;
+      return metric;
+    }
 
     auto batch_metric = Validate(
       perceptron,
@@ -70,6 +77,15 @@ MetricValues s21::BatchData::KCrossValidation(Perceptron &perceptron, std::size_
       (batch_id + 1) * batch_size
     );
     metric += batch_metric;
+
+    if (do_continue != nullptr && *do_continue == false) {
+      delete do_continue;
+      return metric;
+    }
+
+    if (f != nullptr)
+      f(batch_id + 1, metric);
+
   }
 
   metric /= k;

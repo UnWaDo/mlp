@@ -38,12 +38,19 @@ add_executable(
 add_library(
         s21_windows
 
-        source/s21_windows.cc
+        source/s21_main_window.cc
         ui/main_window.ui
-        include/s21_windows.h
+        include/s21_main_window.h
 
-        source/s21_edit_perceptron.cc
-        ui/edit_perceptron.ui
+        source/s21_new_perceptron.cc
+        ui/new_perceptron.ui
+        include/s21_new_perceptron.h
+
+        source/s21_main_model.cc
+        include/s21_main_model.h
+
+        source/s21_main_controller.cc
+        include/s21_main_controller.h
 
         source/s21_progress_window.cc
         ui/progress_window.ui

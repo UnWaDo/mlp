@@ -2,7 +2,7 @@
 #include <QRegularExpressionValidator>
 #include <QErrorMessage>
 
-#include "s21_windows.h"
+#include "s21_main_window.h"
 #include "ui_progress_window.h"
 
 s21::ProgressWindow::ProgressWindow(QWidget *parent)

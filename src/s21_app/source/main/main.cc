@@ -4,7 +4,7 @@
 
 #include <QApplication>
 
-#include "s21_windows.h"
+#include "s21_main_window.h"
 
 int main(int argc, char** argv) {
 

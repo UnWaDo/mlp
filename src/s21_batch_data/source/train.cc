@@ -33,11 +33,11 @@ void BatchData::Train(Perceptron& perceptron,
         sample.input,
         sample.GetTargetRepresentation(classes_number)
       );
-    }
 
-    if (do_continue != nullptr && *do_continue == false) {
-      delete do_continue;
-      return ;
+      if (do_continue != nullptr && *do_continue == false) {
+        delete do_continue;
+        return ;
+      }
     }
 
     if (f != nullptr) {
@@ -46,15 +46,21 @@ void BatchData::Train(Perceptron& perceptron,
       f(epoch + 1, m);
     }
 
-    if (do_continue != nullptr && *do_continue == false)
+    if (do_continue != nullptr && *do_continue == false) {
+      delete do_continue;
       return ;
+    }
+
   }
 
   if (do_continue != nullptr)
     delete do_continue;
 }
 
-void BatchData::Train(Perceptron &perceptron, std::size_t k, std::size_t batch_id) const {
+void BatchData::Train(Perceptron &perceptron, std::size_t k, std::size_t batch_id,
+                      std::function<void(std::size_t, MetricValues)> f,
+                      bool *do_continue) const {
+
   auto batch_size = GetDataSize() / k;
   auto classes_number = GetClassesNumber();
 
@@ -68,6 +74,10 @@ void BatchData::Train(Perceptron &perceptron, std::size_t k, std::size_t batch_i
         sample.input,
         sample.GetTargetRepresentation(classes_number)
       );
+
+      if (do_continue != nullptr && *do_continue == false) {
+        return ;
+      }
     }
 
     for (std::size_t i = (batch_id + 1) * batch_size; i < GetDataSize(); i++) {
@@ -78,6 +88,20 @@ void BatchData::Train(Perceptron &perceptron, std::size_t k, std::size_t batch_i
         sample.input,
         sample.GetTargetRepresentation(classes_number)
       );
+
+      if (do_continue != nullptr && *do_continue == false) {
+        return ;
+      }
+    }
+
+    if (f != nullptr) {
+
+      auto m = Validate(perceptron);
+      f(steps + 1, m);
+    }
+
+    if (do_continue != nullptr && *do_continue == false) {
+      return ;
     }
   }
 }
