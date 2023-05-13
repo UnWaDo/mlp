@@ -27,7 +27,6 @@ namespace s21 {
 
       void mousePressEvent(QMouseEvent* event) override;
       void mouseMoveEvent(QMouseEvent* event) override;
-      // void mouseReleaseEvent(QMouseEvent* event) override;
 
       void paintEvent(QPaintEvent* event) override;
 
@@ -41,7 +40,6 @@ namespace s21 {
       QImage image_;
       QPainter painter_;
       QPoint last_point_;
-      // bool _drag;
   };
 
 }

@@ -48,7 +48,6 @@ class GraphPerceptron : public s21::Perceptron {
 
       for (auto i(0); i < n; i += 1) {
 
-        neurons[i] = Neuron();
         neurons[i].weight = new float[n];
         neurons[i].bias = new float[n];
 

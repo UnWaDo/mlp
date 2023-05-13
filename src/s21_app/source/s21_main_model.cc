@@ -125,7 +125,11 @@ void s21::MainModel::LoadPerceptron(QString path) {
   delete perceptron_;
   perceptron_ = new_perceptron;
 
-  std::cout << "modified" << std::endl;
+  if (perceptron_params_.number_of_layers) {
+    delete[] perceptron_params_.number_of_neurons_in_layer;
+  }
+  perceptron_params_ = perceptron_->GetParameters();
+
   emit PerceptronModified(perceptron_params_, perceptron_type_);
 }
 

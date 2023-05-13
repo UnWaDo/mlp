@@ -71,7 +71,7 @@ void s21::DrawImageWindow::SaveImage(QString path) {
     path += ".bmp";
 
   image_.save(path);
-  // auto pixmap = QPixmap::fromImage(image_);
-  // pixmap.save(path);
+
+  emit ImageSaved(path);
 }
 
