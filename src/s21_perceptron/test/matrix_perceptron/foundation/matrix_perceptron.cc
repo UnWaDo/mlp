@@ -14,7 +14,7 @@ TEST(MatrixPerceptron, constructor_with_parameters) {
   std::filesystem::remove_all("test_constructor_with_parameters");
   auto parameters = s21::Perceptron::Parameters();
   parameters.number_of_layers = 5;
-  parameters.number_of_neurons_in_layer = new int[5]{100, 500, 200, 64, 27}; // утечка
+  parameters.number_of_neurons_in_layer = new int[5]{100, 500, 200, 64, 27};
   parameters.alpha = 0.05f;
   parameters.activation_name = "Sigmoid";
   auto input = Matrix(1, 100);

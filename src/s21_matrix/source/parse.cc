@@ -4,6 +4,8 @@
 
 #include "s21_matrix.h"
 
+namespace s21 {
+
 Matrix Matrix::parse(std::string data) {
 
   if (data.empty()) {
@@ -99,4 +101,5 @@ Matrix Matrix::parse(std::string data) {
   dataMatrix[i * n + j] = std::stof(strinONE);
 
   return {m, n, dataMatrix};
+}
 }

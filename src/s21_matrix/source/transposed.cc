@@ -4,6 +4,8 @@
 
 #include "s21_matrix.h"
 
+namespace s21 {
+
 void Matrix::transposed() {
 
   if (_m == 1 || _n == 1) {
@@ -25,4 +27,5 @@ void Matrix::transposed() {
   std::swap(_m, _n);
 
   delete[] data;
+}
 }

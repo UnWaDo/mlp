@@ -29,14 +29,14 @@ void GraphPerceptron::parse_info(const std::string& bundle) {
 
   if (!info_file.is_open()) {
 
-    throw "lol";
+    throw "info_file_is_not_open";
   }
 
   info_file >> _number_of_layers;
 
   if (info_file.fail()) {
 
-    throw "lol";
+    throw "info_file_fail";
   }
 
   _number_of_hidden_layers = _number_of_layers > 2 ? _number_of_layers - 2 : 0;
@@ -48,7 +48,7 @@ void GraphPerceptron::parse_info(const std::string& bundle) {
 
     if (info_file.fail()) {
 
-      throw "lol";
+      throw "info_file_fail";
     }
   }
 
@@ -56,14 +56,14 @@ void GraphPerceptron::parse_info(const std::string& bundle) {
 
   if (info_file.fail()) {
 
-    throw "lol";
+    throw "info_file_fail";
   }
 
   info_file >> _activation_name;
 
   if (info_file.fail()) {
 
-    throw "lol";
+    throw "info_file_fail";
   }
 
   if (_activation_name == "Relu") {
@@ -77,7 +77,7 @@ void GraphPerceptron::parse_info(const std::string& bundle) {
 
   } else {
 
-    throw "lol";
+    throw "invalid_activation_name";
   }
 
   info_file.close();
@@ -93,7 +93,7 @@ void GraphPerceptron::parse_layer(const std::string& bundle) {
     auto bias_file = std::ifstream(path + "_" + "bias.txt");
 
     if (!weight_file.is_open() || !bias_file.is_open()) {
-      throw "lol";
+      throw "weight_file_is_not_open_or_bias_file_is_not_open";
     }
 
     auto weight_iterator_start = std::istreambuf_iterator<char>(weight_file);
@@ -105,7 +105,7 @@ void GraphPerceptron::parse_layer(const std::string& bundle) {
     auto bias_data = std::string(bias_iterator_start, bias_iterator_end);
 
     if (weight_file.fail() || bias_file.fail()) {
-      throw "lol";
+      throw "weight_file_fail_or_bias_file_fail";
     }
 
     auto weight = Matrix::parse(weight_data);
@@ -138,7 +138,7 @@ Matrix* GraphPerceptron::parse_layer(const std::string& bundle,
     auto some_file = std::ifstream(path_filename);
 
     if (!some_file.is_open()) {
-      throw "lol";
+      throw "some_file_is_not_open";
     }
 
     auto iterator_start = std::istreambuf_iterator<char>(some_file);
@@ -147,7 +147,7 @@ Matrix* GraphPerceptron::parse_layer(const std::string& bundle,
     auto data = std::string(iterator_start, iterator_end);
 
     if (some_file.fail()) {
-      throw "lol";
+      throw "some_file_fail";
     }
 
     array_of_matrices[i] = Matrix::parse(data);

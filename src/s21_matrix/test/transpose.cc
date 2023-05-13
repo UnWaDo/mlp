@@ -9,11 +9,11 @@
 TEST(Matrix, transpose_3x3) {
 
   // given
-  auto sut = Matrix::parse(
+  auto sut = s21::Matrix::parse(
       "[[5, 0, 2],"
       " [1, 7, 5],"
       " [8, 3, 0]]");
-  auto exp = Matrix::parse(
+  auto exp = s21::Matrix::parse(
       "[[5, 1, 8],"
       " [0, 7, 3],"
       " [2, 5, 0]]");
@@ -28,11 +28,11 @@ TEST(Matrix, transpose_3x3) {
 TEST(Matrix, transpose_3x3_where_did_not_change) {
 
   // given
-  auto sut = Matrix::parse(
+  auto sut = s21::Matrix::parse(
       "[[5, 0, 2],"
       " [1, 7, 5],"
       " [8, 3, 0]]");
-  auto exp = Matrix::parse(
+  auto exp = s21::Matrix::parse(
       "[[5, 0, 2],"
       " [1, 7, 5],"
       " [8, 3, 0]]");
@@ -47,11 +47,11 @@ TEST(Matrix, transpose_3x3_where_did_not_change) {
 TEST(Matrix, transpose_3x4) {
 
   // given
-  auto sut = Matrix::parse(
+  auto sut = s21::Matrix::parse(
       "[[5, 0, 7, 2],"
       " [1, 8, 6, 8],"
       " [5, 7, 5, 2]]");
-  auto exp = Matrix::parse(
+  auto exp = s21::Matrix::parse(
       "[[5, 1, 5],"
       " [0, 8, 7],"
       " [7, 6, 5],"
@@ -67,11 +67,11 @@ TEST(Matrix, transpose_3x4) {
 TEST(Matrix, transpose_3x4_where_did_not_change) {
 
   // given
-  auto sut = Matrix::parse(
+  auto sut = s21::Matrix::parse(
       "[[5, 0, 7, 2],"
       " [1, 8, 6, 8],"
       " [5, 7, 5, 2]]");
-  auto exp = Matrix::parse(
+  auto exp = s21::Matrix::parse(
       "[[5, 0, 7, 2],"
       " [1, 8, 6, 8],"
       " [5, 7, 5, 2]]");
@@ -86,12 +86,12 @@ TEST(Matrix, transpose_3x4_where_did_not_change) {
 TEST(Matrix, transpose_4x3) {
 
   // given
-  auto sut = Matrix::parse(
+  auto sut = s21::Matrix::parse(
       "[[5, 0, 7],"
       " [2, 1, 8],"
       " [6, 8, 5],"
       " [7, 5, 2]]");
-  auto exp = Matrix::parse(
+  auto exp = s21::Matrix::parse(
       "[[5, 2, 6, 7],"
       " [0, 1, 8, 5],"
       " [7, 8, 5, 2]]");
@@ -106,14 +106,14 @@ TEST(Matrix, transpose_4x3) {
 TEST(Matrix, transpose_4x3_where_did_not_change) {
 
   // given
-  auto sut = Matrix::parse(
+  auto sut = s21::Matrix::parse(
       "[[5, 0, 7],"
       " [2, 1, 8],"
       " [6, 8, 5],"
       " [7, 5, 2]]");
-  auto exp = Matrix::parse(
+  auto exp = s21::Matrix::parse(
       "[[5, 0, 7],"
-      " [2, 1, 8],"
+      " [2, 0, 8]," // 1
       " [6, 8, 5],"
       " [7, 5, 2]]");
 

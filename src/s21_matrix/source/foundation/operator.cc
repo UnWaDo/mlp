@@ -5,12 +5,14 @@
 #include "s21_matrix.h"
 #include <cmath>
 
-std::ostream& operator<<(std::ostream& stream, const Matrix& matrix) {
+namespace s21 {
+
+std::ostream& operator<<(std::ostream& stream, const s21::Matrix& matrix) {
 
   return stream << matrix.description();
 }
 
-Matrix& Matrix::operator=(const Matrix& other) {
+Matrix &Matrix::operator=(const Matrix &other) {
 
   if (this != &other) {
     copy(other);
@@ -19,7 +21,7 @@ Matrix& Matrix::operator=(const Matrix& other) {
   return *this;
 }
 
-bool Matrix::operator==(const Matrix& other) const {
+bool Matrix::operator==(const Matrix &other) const {
 
   auto epsilon = 1e-6f;
 
@@ -38,4 +40,5 @@ bool Matrix::operator==(const Matrix& other) const {
   }
 
   return true;
+}
 }

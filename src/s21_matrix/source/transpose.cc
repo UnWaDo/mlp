@@ -4,6 +4,8 @@
 
 #include "s21_matrix.h"
 
+namespace s21 {
+
 Matrix Matrix::transpose() const {
 
   auto data = new float[_m * _n];
@@ -15,4 +17,5 @@ Matrix Matrix::transpose() const {
   }
 
   return {_n, _m, data};
+}
 }
