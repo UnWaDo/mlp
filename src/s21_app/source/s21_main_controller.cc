@@ -23,7 +23,18 @@ void s21::MainController::SetPerceptronParameters(s21::MainWindow *w, s21::MainM
 void s21::MainController::LoadPerceptron(MainWindow *w, MainModel *m) {
   QString folderPath = QFileDialog::getExistingDirectory(
     w, "Выберите папку", "");
-  m->LoadPerceptron(folderPath);
+
+  QStringList types;
+  types.append("Matrix");
+  types.append("Graph");
+
+  bool ok = false;
+  auto type = QInputDialog::getItem(w, "Тип перцептрона", "Выберите тип перцептрона", types,
+                                    0, false, &ok);
+  m->SetPerceptronType(type.toStdString());
+
+  if (ok)
+    m->LoadPerceptron(folderPath);
 }
 
 void s21::MainController::DrawImage(MainWindow *w, MainModel *m) {

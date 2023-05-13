@@ -49,7 +49,6 @@ namespace s21 {
 
     private:
       Ui::MainWindow *ui_;
-      QMediaPlayer *player_;
       MainModel *model_;
       QPixmap *image_;
   };

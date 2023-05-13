@@ -24,6 +24,8 @@ namespace s21 {
       MainModel(QObject *parent = nullptr);
       ~MainModel();
 
+      void SetPerceptronType(std::string_view type);
+
       std::size_t GetDataSize() const;
       const std::vector<MetricValues>& GetTrainingHistory() const;
 

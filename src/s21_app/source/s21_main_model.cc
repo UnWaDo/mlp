@@ -33,6 +33,10 @@ s21::MainModel::~MainModel() {
   delete perceptron_;
 }
 
+void s21::MainModel::SetPerceptronType(std::string_view type) {
+  perceptron_type_ = type;
+}
+
 std::size_t s21::MainModel::GetDataSize() const {
   return data_.GetDataSize();
 }
@@ -90,8 +94,8 @@ void s21::MainModel::InitializePerceptron()
 
   if (perceptron_type_ == "Matrix")
     new_perceptron = new MatrixPerceptron(perceptron_params_);
-  // else
-  //   new_perceptron = new GraphPerceptron(perceptron_params_);
+  else
+    new_perceptron = new GraphPerceptron(perceptron_params_);
 
   if (perceptron_ != nullptr)
     delete perceptron_;

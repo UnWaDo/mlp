@@ -18,13 +18,6 @@ s21::MainWindow::MainWindow(QWidget *parent) : image_(nullptr) {
 
   model_ = new s21::MainModel(parent);
 
-  player_ = new QMediaPlayer;
-  auto audioOutput = new QAudioOutput;
-  player_->setAudioOutput(audioOutput);
-
-  player_->setSource(QUrl::fromLocalFile("/Users/ivnvtosh/Desktop/done.m4a"));
-  audioOutput->setVolume(50);
-
   QObject::connect(ui_->draw_image_, &QPushButton::clicked, [&]{
     s21::MainController::DrawImage(this, model_);
   });
