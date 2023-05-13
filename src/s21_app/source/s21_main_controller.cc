@@ -1,6 +1,7 @@
 #include "s21_main_controller.h"
 #include "s21_main_window.h"
 #include "s21_main_model.h"
+#include "s21_draw_image.h"
 #include "s21_new_perceptron.h"
 
 #include <thread>
@@ -11,12 +12,12 @@
 
 void s21::MainController::SetPerceptronParameters(s21::MainWindow *w, s21::MainModel *m) {
 
-  auto edit = new s21::NewPerceptronWindow(w);
+  auto edit = s21::NewPerceptronWindow(w);
 
-  QObject::connect(edit, &s21::NewPerceptronWindow::ModificationFinished,
+  QObject::connect(&edit, &s21::NewPerceptronWindow::ModificationFinished,
                    m, &s21::MainModel::SetPerceptronParameters);
 
-  edit->exec();
+  edit.exec();
 }
 
 void s21::MainController::LoadPerceptron(MainWindow *w, MainModel *m) {
@@ -25,8 +26,19 @@ void s21::MainController::LoadPerceptron(MainWindow *w, MainModel *m) {
   m->LoadPerceptron(folderPath);
 }
 
-void s21::MainController::SelectImage(MainWindow *w, MainModel *m) {
+void s21::MainController::DrawImage(MainWindow *w, MainModel *m) {
 
+  auto canvas = s21::DrawImageWindow(w);
+
+  QObject::connect(&canvas, &s21::DrawImageWindow::ImageSaved,
+                   w, &s21::MainWindow::ImageSelected);
+  QObject::connect(&canvas, &s21::DrawImageWindow::ImageSaved,
+                   m, &s21::MainModel::PredictImage);
+
+  canvas.exec();
+}
+
+void s21::MainController::SelectImage(MainWindow *w, MainModel *m) {
   QString file_path = QFileDialog::getOpenFileName(
       w, "Выберите файл", "", "BMP images (*.bmp)");
 

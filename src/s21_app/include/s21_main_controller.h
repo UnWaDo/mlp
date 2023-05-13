@@ -19,6 +19,7 @@ namespace s21 {
 
   class MainController {
     public:
+      static void DrawImage(MainWindow *, MainModel *);
       static void SelectImage(MainWindow *, MainModel *);
 
       static void LoadData(MainWindow *, MainModel *);

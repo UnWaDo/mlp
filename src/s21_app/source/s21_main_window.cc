@@ -25,6 +25,10 @@ s21::MainWindow::MainWindow(QWidget *parent) : image_(nullptr) {
   player_->setSource(QUrl::fromLocalFile("/Users/ivnvtosh/Desktop/done.m4a"));
   audioOutput->setVolume(50);
 
+  QObject::connect(ui_->draw_image_, &QPushButton::clicked, [&]{
+    s21::MainController::DrawImage(this, model_);
+  });
+
   QObject::connect(ui_->select_image_, &QPushButton::clicked, [&]{
     s21::MainController::SelectImage(this, model_);
   });

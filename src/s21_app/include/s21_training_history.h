@@ -7,9 +7,6 @@
 # include "s21_batch_data.h"
 
 namespace s21 {
-  namespace Ui {
-    class TrainingHistoryWindow;
-  }
 
   class TrainingHistoryWindow : public QDialog {
     Q_OBJECT

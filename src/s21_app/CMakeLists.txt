@@ -58,6 +58,9 @@ add_library(
 
         source/s21_training_history.cc
         include/s21_training_history.h
+
+        source/s21_draw_image.cc
+        include/s21_draw_image.h
 )
 
 target_link_libraries(
