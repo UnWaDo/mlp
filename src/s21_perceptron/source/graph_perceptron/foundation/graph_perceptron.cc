@@ -201,3 +201,19 @@ Matrix* GraphPerceptron::parse_layer(const std::string& bundle,
 
   return array_of_matrices;
 }
+
+Perceptron::Parameters GraphPerceptron::GetParameters() const {
+
+  auto parameters = Parameters();
+
+  parameters.number_of_layers = _number_of_layers;
+  parameters.number_of_neurons_in_layer = new int[_number_of_layers];
+  parameters.alpha = _alpha;
+  parameters.activation_name = _activation_name;
+
+  for (auto i(0); i < _number_of_layers; i += 1) {
+    parameters.number_of_neurons_in_layer[i] = _number_of_neurons_in_layers[i];
+  }
+
+  return parameters;
+}

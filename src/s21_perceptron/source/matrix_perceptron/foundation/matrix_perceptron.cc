@@ -175,3 +175,19 @@ MatrixPerceptron::~MatrixPerceptron() {
   delete[] _dE_dW;
   delete[] _dE_db;
 }
+
+Perceptron::Parameters MatrixPerceptron::GetParameters() const {
+
+  auto parameters = s21::Perceptron::Parameters();
+
+  parameters.number_of_layers = _number_of_layers;
+  parameters.number_of_neurons_in_layer = new int[_number_of_layers];
+  parameters.alpha = _alpha;
+  parameters.activation_name = _activation_name;
+
+  for (auto i(0); i < _number_of_layers; i += 1) {
+    parameters.number_of_neurons_in_layer[i] = _number_of_neurons_in_layers[i];
+  }
+
+  return parameters;
+}

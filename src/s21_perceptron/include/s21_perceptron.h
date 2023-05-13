@@ -27,6 +27,8 @@ class Perceptron {
 
   virtual void ExportPerceptronToFile(const std::string& name,
                                       const std::string& path = "./") = 0;
+
+  virtual Parameters GetParameters() const = 0;
 };
 }
 

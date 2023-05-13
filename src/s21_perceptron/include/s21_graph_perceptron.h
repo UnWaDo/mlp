@@ -22,6 +22,8 @@ class GraphPerceptron : public s21::Perceptron {
 
   void ExportPerceptronToFile(const std::string &name, const std::string &path = "./") override;
 
+  Parameters GetParameters() const override;
+
  private:
 
   class Neuron;
