@@ -19,14 +19,19 @@ class Perceptron {
     std::string activation_name;
   };
 
+  virtual ~Perceptron() {};
+
   virtual Matrix ForwardPropagation(const Matrix& input) = 0;
 
   virtual void BackPropagation(const Matrix& x, const Matrix& t) = 0;
 
   virtual void ExportPerceptronToFile(const std::string& name,
                                       const std::string& path = "./") = 0;
+
+  virtual Parameters GetParameters() const = 0;
 };
 }
 
+using namespace s21;
 
 #endif //CPP7_MLP_1_SRC_S21_PERCEPTRON_INCLUDE_S21_PERCEPTRON_H_

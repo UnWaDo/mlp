@@ -8,9 +8,52 @@
 #include "s21_graph_perceptron.h"
 #include "s21_utils.h"
 
-//MatrixPerceptron::MatrixPerceptron(const s21::Perceptron::Parameters& parameters) {
-//  (void)parameters;
-//}
+GraphPerceptron::GraphPerceptron(const s21::Perceptron::Parameters& parameters) {
+
+  _number_of_layers = parameters.number_of_layers;
+  _number_of_hidden_layers = _number_of_layers > 2 ? _number_of_layers - 2 : 0;
+  _number_of_neurons_in_layers = new int[_number_of_layers];
+
+  for (auto i(0); i < _number_of_layers; i += 1) {
+
+    _number_of_neurons_in_layers[i] = parameters.number_of_neurons_in_layer[i];
+  }
+
+  _alpha = parameters.alpha;
+  _activation_name = parameters.activation_name;
+
+  if (_activation_name == "Relu") {
+
+    _activation = s21::Relu;
+    _derivedActivation = s21::DerivedRelu;
+
+  } else if (_activation_name == "Sigmoid") {
+
+    _activation = s21::Sigmoid;
+    _derivedActivation = s21::DerivedSigmoid;
+
+  } else {
+
+    throw "invalid_activation_name";
+  }
+
+  for (auto i(0); i < _number_of_layers - 1; i += 1) {
+
+    auto weight = s21::RandomMatrix(_number_of_neurons_in_layers[i], _number_of_neurons_in_layers[i + 1]);
+    auto bias = s21::RandomMatrix(1, _number_of_neurons_in_layers[i + 1]);
+
+    auto* layer = new Layer(weight, bias);
+
+    if (layers_) {
+
+      layers_->get_last_layer()->next = layer;
+
+    } else {
+
+      layers_ = layer;
+    }
+}
+}
 
 GraphPerceptron::GraphPerceptron(const std::string& name, const std::string& path) {
 
@@ -29,14 +72,14 @@ void GraphPerceptron::parse_info(const std::string& bundle) {
 
   if (!info_file.is_open()) {
 
-    throw "lol";
+    throw "info_file_is_not_open";
   }
 
   info_file >> _number_of_layers;
 
   if (info_file.fail()) {
 
-    throw "lol";
+    throw "info_file_fail";
   }
 
   _number_of_hidden_layers = _number_of_layers > 2 ? _number_of_layers - 2 : 0;
@@ -48,7 +91,7 @@ void GraphPerceptron::parse_info(const std::string& bundle) {
 
     if (info_file.fail()) {
 
-      throw "lol";
+      throw "info_file_fail";
     }
   }
 
@@ -56,14 +99,14 @@ void GraphPerceptron::parse_info(const std::string& bundle) {
 
   if (info_file.fail()) {
 
-    throw "lol";
+    throw "info_file_fail";
   }
 
   info_file >> _activation_name;
 
   if (info_file.fail()) {
 
-    throw "lol";
+    throw "info_file_fail";
   }
 
   if (_activation_name == "Relu") {
@@ -74,10 +117,11 @@ void GraphPerceptron::parse_info(const std::string& bundle) {
   } else if (_activation_name == "Sigmoid") {
 
     _activation = s21::Sigmoid;
+    _derivedActivation = s21::DerivedSigmoid;
 
   } else {
 
-    throw "lol";
+    throw "invalid_activation_name";
   }
 
   info_file.close();
@@ -93,7 +137,7 @@ void GraphPerceptron::parse_layer(const std::string& bundle) {
     auto bias_file = std::ifstream(path + "_" + "bias.txt");
 
     if (!weight_file.is_open() || !bias_file.is_open()) {
-      throw "lol";
+      throw "weight_file_is_not_open_or_bias_file_is_not_open";
     }
 
     auto weight_iterator_start = std::istreambuf_iterator<char>(weight_file);
@@ -105,7 +149,7 @@ void GraphPerceptron::parse_layer(const std::string& bundle) {
     auto bias_data = std::string(bias_iterator_start, bias_iterator_end);
 
     if (weight_file.fail() || bias_file.fail()) {
-      throw "lol";
+      throw "weight_file_fail_or_bias_file_fail";
     }
 
     auto weight = Matrix::parse(weight_data);
@@ -138,7 +182,7 @@ Matrix* GraphPerceptron::parse_layer(const std::string& bundle,
     auto some_file = std::ifstream(path_filename);
 
     if (!some_file.is_open()) {
-      throw "lol";
+      throw "some_file_is_not_open";
     }
 
     auto iterator_start = std::istreambuf_iterator<char>(some_file);
@@ -147,7 +191,7 @@ Matrix* GraphPerceptron::parse_layer(const std::string& bundle,
     auto data = std::string(iterator_start, iterator_end);
 
     if (some_file.fail()) {
-      throw "lol";
+      throw "some_file_fail";
     }
 
     array_of_matrices[i] = Matrix::parse(data);
@@ -158,6 +202,18 @@ Matrix* GraphPerceptron::parse_layer(const std::string& bundle,
   return array_of_matrices;
 }
 
-//GraphPerceptron::GraphPerceptron(const GraphPerceptron& other) {
-//  (void)other;
-//}
+Perceptron::Parameters GraphPerceptron::GetParameters() const {
+
+  auto parameters = Parameters();
+
+  parameters.number_of_layers = _number_of_layers;
+  parameters.number_of_neurons_in_layer = new int[_number_of_layers];
+  parameters.alpha = _alpha;
+  parameters.activation_name = _activation_name;
+
+  for (auto i(0); i < _number_of_layers; i += 1) {
+    parameters.number_of_neurons_in_layer[i] = _number_of_neurons_in_layers[i];
+  }
+
+  return parameters;
+}

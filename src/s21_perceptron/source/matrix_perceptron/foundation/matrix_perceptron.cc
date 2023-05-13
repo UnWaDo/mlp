@@ -35,7 +35,7 @@ MatrixPerceptron::MatrixPerceptron(const s21::Perceptron::Parameters& parameters
 
   } else {
 
-    throw "lol";
+    throw "invalid_activation_name";
   }
 
   _W = new Matrix[_number_of_layers - 1];
@@ -63,11 +63,11 @@ MatrixPerceptron::MatrixPerceptron(const std::string& name, const std::string& p
   _W = parse_layer(bundle, "weight.txt");
   _b = parse_layer(bundle, "bias.txt");
 
-  _h = new Matrix[_number_of_layers];
-  _t = new Matrix[_number_of_layers];
+  _h = new Matrix[_number_of_layers - 1];
+  _t = new Matrix[_number_of_layers - 1];
 
-  _dE_dW = new Matrix[_number_of_layers];
-  _dE_db = new Matrix[_number_of_layers];
+  _dE_dW = new Matrix[_number_of_layers - 1];
+  _dE_db = new Matrix[_number_of_layers - 1];
 }
 
 void MatrixPerceptron::parse_info(const std::string& bundle) {
@@ -77,14 +77,14 @@ void MatrixPerceptron::parse_info(const std::string& bundle) {
 
   if (!info_file.is_open()) {
 
-    throw "lol";
+    throw "info_file_is_not_open";
   }
 
   info_file >> _number_of_layers;
 
   if (info_file.fail()) {
 
-    throw "lol";
+    throw "info_file_fail";
   }
 
   _number_of_hidden_layers = _number_of_layers > 2 ? _number_of_layers - 2 : 0;
@@ -97,7 +97,7 @@ void MatrixPerceptron::parse_info(const std::string& bundle) {
 
     if (info_file.fail()) {
 
-      throw "lol";
+      throw "info_file_fail";
     }
   }
 
@@ -116,12 +116,12 @@ void MatrixPerceptron::parse_info(const std::string& bundle) {
 
   } else {
 
-    throw "lol";
+    throw "invalid_activation_name";
   }
 
   if (info_file.fail()) {
 
-    throw "lol";
+    throw "info_file_fail";
   }
 
   info_file.close();
@@ -130,7 +130,7 @@ void MatrixPerceptron::parse_info(const std::string& bundle) {
 Matrix* MatrixPerceptron::parse_layer(const std::string& bundle,
                                       const std::string& filename) const {
 
-  auto array_of_matrices = new Matrix[_number_of_layers];
+  auto array_of_matrices = new Matrix[_number_of_layers - 1];
 
   for (auto i(0); i < _number_of_layers - 1; i += 1) {
 
@@ -138,7 +138,7 @@ Matrix* MatrixPerceptron::parse_layer(const std::string& bundle,
     auto some_file = std::ifstream(path_filename);
 
     if (!some_file.is_open()) {
-      throw "lol";
+      throw "some_file_is_not_open";
     }
 
     auto iterator_start = std::istreambuf_iterator<char>(some_file);
@@ -147,7 +147,7 @@ Matrix* MatrixPerceptron::parse_layer(const std::string& bundle,
     auto data = std::string(iterator_start, iterator_end);
 
     if (some_file.fail()) {
-      throw "lol";
+      throw "some_file_fail";
     }
 
     array_of_matrices[i] = Matrix::parse(data);
@@ -164,6 +164,8 @@ MatrixPerceptron::MatrixPerceptron(const MatrixPerceptron& other) {
 
 MatrixPerceptron::~MatrixPerceptron() {
 
+  delete[] _number_of_neurons_in_layers;
+
   delete[] _W;
   delete[] _b;
 
@@ -172,4 +174,20 @@ MatrixPerceptron::~MatrixPerceptron() {
 
   delete[] _dE_dW;
   delete[] _dE_db;
+}
+
+Perceptron::Parameters MatrixPerceptron::GetParameters() const {
+
+  auto parameters = s21::Perceptron::Parameters();
+
+  parameters.number_of_layers = _number_of_layers;
+  parameters.number_of_neurons_in_layer = new int[_number_of_layers];
+  parameters.alpha = _alpha;
+  parameters.activation_name = _activation_name;
+
+  for (auto i(0); i < _number_of_layers; i += 1) {
+    parameters.number_of_neurons_in_layer[i] = _number_of_neurons_in_layers[i];
+  }
+
+  return parameters;
 }

@@ -4,7 +4,9 @@
 
 #include "s21_matrix.h"
 
-Matrix Matrix::multiply(const Matrix& a, const Matrix& b) {
+namespace s21 {
+
+Matrix Matrix::multiply(const Matrix &a, const Matrix &b) {
 
   assert(a.m() == b.m());
   assert(a.n() == b.n());
@@ -38,7 +40,7 @@ Matrix Matrix::operator*(float value) const {
   return {_m, _n, data};
 }
 
-Matrix Matrix::operator*(const Matrix& other) const {
+Matrix Matrix::operator*(const Matrix &other) const {
 
   assert(_n == other.m());
 
@@ -63,7 +65,7 @@ Matrix Matrix::operator*(const Matrix& other) const {
   return {m, n, data};
 }
 
-Matrix Matrix::operator+(const Matrix& other) const {
+Matrix Matrix::operator+(const Matrix &other) const {
 
   assert(_m == other.m());
   assert(_n == other.n());
@@ -81,7 +83,7 @@ Matrix Matrix::operator+(const Matrix& other) const {
   return {_m, _n, data};
 }
 
-Matrix Matrix::operator-(const Matrix& other) const {
+Matrix Matrix::operator-(const Matrix &other) const {
 
   assert(_m == other.m());
   assert(_n == other.n());
@@ -97,4 +99,45 @@ Matrix Matrix::operator-(const Matrix& other) const {
   }
 
   return {_m, _n, data};
+}
+
+Matrix &Matrix::operator*=(float v) {
+
+  auto size = _m * _n;
+
+  for (auto i(0); i < size; i += 1) {
+    _data[i] *= v;
+  }
+
+  return *this;
+}
+
+Matrix &Matrix::operator+=(const Matrix &b) {
+  assert(_m == b.m());
+  assert(_n == b.n());
+
+  auto size = _m * _n;
+  auto b_data = b.data();
+
+  for (auto i(0); i < size; i += 1) {
+    _data[i] += b_data[i];
+  }
+
+  return *this;
+}
+
+Matrix &Matrix::operator-=(const Matrix &b) {
+
+  assert(_m == b.m());
+  assert(_n == b.n());
+
+  auto size = _m * _n;
+  auto b_data = b.data();
+
+  for (auto i(0); i < size; i += 1) {
+    _data[i] -= b_data[i];
+  }
+
+  return *this;
+}
 }

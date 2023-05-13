@@ -4,7 +4,9 @@
 
 #include "s21_matrix.h"
 
-float* Matrix::operator[](int i) const {
+namespace s21 {
+
+float *Matrix::operator[](int i) const {
 
   return _data + i * _n;
 }
@@ -19,7 +21,8 @@ int Matrix::n() const {
   return _n;
 }
 
-float* Matrix::data() const {
+float *Matrix::data() const {
 
   return _data;
+}
 }

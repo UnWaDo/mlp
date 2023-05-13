@@ -8,6 +8,7 @@ project(s21_matrix)
 add_definitions("-Wall -Wextra -Werror -std=c++17")
 
 set(CMAKE_CXX_STANDARD 17)
+cmake_policy(SET CMP0135 NEW)
 
 add_library(
         s21_matrix

@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.2)
-add_definitions("-Wall -Wextra -Werror -std=c++17")
-set(CMAKE_CXX_STANDARD 17)
 project(s21_batch_data)
+
+add_definitions("-Wall -Wextra -Werror -std=c++17")
+
+set(CMAKE_CXX_STANDARD 17)
+cmake_policy(SET CMP0135 NEW)
 
 add_library(
 

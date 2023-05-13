@@ -13,7 +13,9 @@ void MatrixPerceptron::BackPropagation(const Matrix& x, const Matrix& t) {
   auto dE_dh = Matrix();
   auto dE_dt = y - t;
 
-  _dE_dW[size + 1] = _h[size].transpose() * dE_dt;
+  _h[size].transposed();
+  _dE_dW[size + 1] = _h[size] * dE_dt;
+  _h[size].transposed();
   _dE_db[size + 1] = dE_dt;
 
   for (auto i(size); i > 0; i -= 1) {
@@ -21,7 +23,9 @@ void MatrixPerceptron::BackPropagation(const Matrix& x, const Matrix& t) {
     dE_dh = dE_dt * _W[i + 1].transpose();
     dE_dt = Matrix::multiply(dE_dh, _derivedActivation(_t[i]));
 
-    _dE_dW[i] = _h[i - 1].transpose() * dE_dt;
+    _h[i - 1].transposed();
+    _dE_dW[i] = _h[i - 1] * dE_dt;
+    _h[i - 1].transposed();
     _dE_db[i] = dE_dt;
   }
 
@@ -38,7 +42,9 @@ void MatrixPerceptron::update() {
 
   for (auto i(0); i < _number_of_layers - 1; i += 1) {
 
-    _W[i] = _W[i] - _dE_dW[i] * _alpha;
-    _b[i] = _b[i] - _dE_db[i] * _alpha;
+    _dE_dW[i] *= _alpha;
+    _dE_db[i] *= _alpha;
+    _W[i] -= _dE_dW[i];
+    _b[i] -= _dE_db[i];
   }
 }

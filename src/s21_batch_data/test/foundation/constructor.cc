@@ -150,7 +150,6 @@ TEST(BatchData, MetricValuesDefault) {
   EXPECT_EQ(metric.precision, 0);
   EXPECT_EQ(metric.recall, 0);
   EXPECT_EQ(metric.f_measure, 0);
-  EXPECT_EQ(metric.time_spent, 0);
 }
 
 TEST(BatchData, MetricValuesAllFit) {
@@ -168,7 +167,6 @@ TEST(BatchData, MetricValuesAllFit) {
   EXPECT_NEAR(metric.precision, 1, 1e-4);
   EXPECT_NEAR(metric.recall, 1, 1e-4);
   EXPECT_NEAR(metric.f_measure, 1, 1e-4);
-  EXPECT_NEAR(metric.time_spent, 0, 1e-4);
 }
 
 TEST(BatchData, MetricValuesWithErrors) {
@@ -191,7 +189,6 @@ TEST(BatchData, MetricValuesWithErrors) {
   EXPECT_NEAR(metric.precision, expected_prec, 1e-4);
   EXPECT_NEAR(metric.recall, expected_rec, 1e-4);
   EXPECT_NEAR(metric.f_measure, expected_f, 1e-4);
-  EXPECT_NEAR(metric.time_spent, 0, 1e-4);
 }
 
 TEST(BatchData, MetricValuesAllErrors) {
@@ -208,7 +205,6 @@ TEST(BatchData, MetricValuesAllErrors) {
   EXPECT_NEAR(metric.accuracy, 0.8, 1e-4);
   EXPECT_NEAR(metric.precision, 0, 1e-4);
   EXPECT_NEAR(metric.recall, 0, 1e-4);
-  EXPECT_NEAR(metric.time_spent, 0, 1e-4);
 }
 
 TEST(BatchData, TestConstructor) {

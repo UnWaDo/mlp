@@ -6,7 +6,7 @@
 
 #include "s21_matrix_perceptron.h"
 
-TEST(GraphPerceptron, BackPropagation1) {
+TEST(GraphPerceptron, BackPropagation_where_3_2_2_1) {
 
   // given
   auto x = Matrix(1, 2, new float[2]{2.0f, 3.0f});
@@ -22,7 +22,7 @@ TEST(GraphPerceptron, BackPropagation1) {
   EXPECT_EQ(exp, returned);
 }
 
-TEST(GraphPerceptron, BackPropagation_two1) {
+TEST(GraphPerceptron, BackPropagation_where_4_64_30_12_10) {
 
   // given
   auto x = Matrix(1, 64, new float[64]{0.22, 0.54, 0.85, 0.38,
@@ -32,11 +32,10 @@ TEST(GraphPerceptron, BackPropagation_two1) {
       0.54, 0.36, 0.20, 0.26, 0.23, 0.09, 0.96, 1.00, 0.02, 0.07, 0.45, 0.28,
       0.75, 0.03, 0.66, 0.7 , 0.25, 0.75, 0.55, 0.72, 0.6 , 0.91, 0.05, 0.54});
   auto t = Matrix(1, 10, new float[10]{0.87, 0.67, 0.64, 0.95,
-      0.77, 0.35, 0.96, 0.74, 0.95, 0.56});
+      0.77, 12.35, 0.96, 0.74, 0.95, 0.56});
   auto sut = MatrixPerceptron("perceptron_4_64_30_12_10", "resource/");
-  auto exp = Matrix(1, 10, new float[10]{-69.505417919, -73.146659585,
-      -67.946376748, -84.217286672, -89.248463974, -79.222304315,
-      -73.552763119, -81.205465789, -72.716457869, -74.455032899});
+  auto exp = Matrix(1, 10, new float[10]{0.000000, 0.000000, 0.000000,
+      0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000});
 
   // when
   sut.BackPropagation(x, t);

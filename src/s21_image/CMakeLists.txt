@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.2)
-add_definitions("-Wall -Wextra -Werror -std=c++17")
-set(CMAKE_CXX_STANDARD 17)
 project(s21_image)
+
+add_definitions("-Wall -Wextra -Werror -std=c++17")
+
+set(CMAKE_CXX_STANDARD 17)
+cmake_policy(SET CMP0135 NEW)
 
 add_library(
 
@@ -47,7 +50,6 @@ add_executable(
         test/matrix_conversion.cc
 )
 
-include(GoogleTest)
 target_link_libraries(
 
         s21_image_test
@@ -57,6 +59,7 @@ target_link_libraries(
         GTest::gtest_main
 )
 
+include(GoogleTest)
 gtest_discover_tests(
         s21_image_test
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/test

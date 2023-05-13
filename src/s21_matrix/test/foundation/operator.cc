@@ -8,10 +8,10 @@
 
 
 TEST(Matrix, is_equal) {
-  auto lhs = Matrix::parse(
+  auto lhs = s21::Matrix::parse(
       "[[1, 2],"
       " [3, 4]]");
-  auto rhs = Matrix::parse(
+  auto rhs = s21::Matrix::parse(
       "[[1, 2],"
       " [3, 4]]");
 
@@ -21,10 +21,10 @@ TEST(Matrix, is_equal) {
 }
 
 TEST(Matrix, is_equal_floats) {
-  auto lhs = Matrix::parse(
+  auto lhs = s21::Matrix::parse(
       "[[1.1, 2.01],"
       " [3.001, 4.0001]]");
-  auto rhs = Matrix::parse(
+  auto rhs = s21::Matrix::parse(
       "[[1.1, 2.01],"
       " [3.001, 4.0001]]");
 
@@ -34,10 +34,10 @@ TEST(Matrix, is_equal_floats) {
 }
 
 TEST(Matrix, is_not_equal_because_of_m) {
-  auto lhs = Matrix::parse(
+  auto lhs = s21::Matrix::parse(
       "[[1, 2],"
       " [2, 3]]");
-  auto rhs = Matrix::parse("[[1, 2]]");
+  auto rhs = s21::Matrix::parse("[[1, 2]]");
 
   auto returned = lhs == rhs;
 
@@ -45,10 +45,10 @@ TEST(Matrix, is_not_equal_because_of_m) {
 }
 
 TEST(Matrix, is_not_equal_because_of_n) {
-  auto lhs = Matrix::parse(
+  auto lhs = s21::Matrix::parse(
       "[[1, 2],"
       " [2, 3]]");
-  auto rhs = Matrix::parse(
+  auto rhs = s21::Matrix::parse(
       "[[1],"
       " [2]]");
 
@@ -58,10 +58,10 @@ TEST(Matrix, is_not_equal_because_of_n) {
 }
 
 TEST(Matrix, is_not_equal_because_of_m_and_n) {
-  auto lhs = Matrix::parse(
+  auto lhs = s21::Matrix::parse(
       "[[1, 2],"
       " [2, 3]]");
-  auto rhs = Matrix::parse("[[1]]");
+  auto rhs = s21::Matrix::parse("[[1]]");
 
   auto returned = lhs == rhs;
 
@@ -69,10 +69,10 @@ TEST(Matrix, is_not_equal_because_of_m_and_n) {
 }
 
 TEST(Matrix, is_not_equal_because_of_value) {
-  auto lhs = Matrix::parse(
+  auto lhs = s21::Matrix::parse(
       "[[1, 2],"
       " [2, 3]]");
-  auto rhs = Matrix::parse(
+  auto rhs = s21::Matrix::parse(
       "[[1, 2],"
       " [9, 3]]");
 
@@ -82,10 +82,10 @@ TEST(Matrix, is_not_equal_because_of_value) {
 }
 
 TEST(Matrix, is_not_equal_because_of_value_floats) {
-  auto lhs = Matrix::parse(
+  auto lhs = s21::Matrix::parse(
       "[[1.1, 2.1],"
       " [2.0, 3.1]]");
-  auto rhs = Matrix::parse(
+  auto rhs = s21::Matrix::parse(
       "[[1.01, 2.1],"
       " [2.0, 3.1]]");
 
@@ -96,7 +96,7 @@ TEST(Matrix, is_not_equal_because_of_value_floats) {
 
 TEST(Matrix, outstream_3x3_default) {
   std::stringstream stream;
-  auto sut = Matrix::parse(
+  auto sut = s21::Matrix::parse(
       "[[5, 0, 222],"
       " [1, -72, 5],"
       " [-8, 3, 0]]");
@@ -112,7 +112,7 @@ TEST(Matrix, outstream_3x3_default) {
 
 TEST(Matrix, outstream_3x4_default) {
   std::stringstream stream;
-  auto sut = Matrix::parse(
+  auto sut = s21::Matrix::parse(
       "[[5, 0, 777, 2],"
       " [1, -84, 6, 8],"
       " [5, 7, 5, 2]]");
@@ -128,7 +128,7 @@ TEST(Matrix, outstream_3x4_default) {
 
 TEST(Matrix, outstream_4x3_default) {
   std::stringstream stream;
-  auto sut = Matrix::parse(
+  auto sut = s21::Matrix::parse(
       "[[5, 0, 777],"
       " [26, 1, -8],"
       " [6, 8, -59],"
