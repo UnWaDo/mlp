@@ -124,6 +124,9 @@ void s21::MainModel::LaunchTraining(std::size_t epochs, bool *do_continue) {
   auto m = data_.Validate(*perceptron_);
 
   emit TrainingFinished(std::time(nullptr) - start, m);
+
+  if (do_continue != nullptr)
+    delete do_continue;
 }
 
 void s21::MainModel::LaunchCrossValidation(std::size_t k, std::size_t epochs,
@@ -145,6 +148,9 @@ void s21::MainModel::LaunchCrossValidation(std::size_t k, std::size_t epochs,
   average /= k;
 
   emit CrossValidationFinished(std::time(nullptr) - start, average);
+
+  if (do_continue != nullptr)
+    delete do_continue;
 }
 
 void s21::MainModel::LaunchValidation(float alpha, std::size_t iterations) {

@@ -35,7 +35,6 @@ void BatchData::Train(Perceptron& perceptron,
       );
 
       if (do_continue != nullptr && *do_continue == false) {
-        delete do_continue;
         return ;
       }
     }
@@ -47,14 +46,10 @@ void BatchData::Train(Perceptron& perceptron,
     }
 
     if (do_continue != nullptr && *do_continue == false) {
-      delete do_continue;
       return ;
     }
 
   }
-
-  if (do_continue != nullptr)
-    delete do_continue;
 }
 
 void BatchData::Train(Perceptron &perceptron, std::size_t k, std::size_t batch_id,
