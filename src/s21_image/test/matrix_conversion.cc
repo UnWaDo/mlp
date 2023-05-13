@@ -17,7 +17,7 @@ TEST_F(ImageTest, TestImageToVectorConversionBitmap) {
   float *values = new float[n];
   for (std::size_t i = 0; i < n; i++)
     values[i] = 1 - pixels[i] / 1;
-  auto expected = Matrix(1, n, values);
+  auto expected = s21::Matrix(1, n, values);
   auto from_img = bitmap.ToVector();
 
   // then
@@ -42,7 +42,7 @@ TEST_F(ImageTest, TestImageToVectorConversionGrayscale) {
   float *values = new float[n];
   for (std::size_t i = 0; i < n; i++)
     values[i] = 1 - pixels[i] / 255;
-  auto expected = Matrix(1, n, values);
+  auto expected = s21::Matrix(1, n, values);
   auto from_img = grayscale.ToVector();
 
   // then
@@ -67,7 +67,7 @@ TEST_F(ImageTest, TestImageToVectorConversionRGB) {
   float *values = new float[n];
   for (std::size_t i = 0; i < n; i++)
     values[i] = 1 - pixels[i] / 255;
-  auto expected = Matrix(1, n, values);
+  auto expected = s21::Matrix(1, n, values);
   rgb.ToGrayscale();
   auto from_img = rgb.ToVector();
 
@@ -94,7 +94,7 @@ TEST_F(ImageTest, TestImageToVectorConversionAsymGrayscale) {
   float *values = new float[n];
   for (std::size_t i = 0; i < n; i++)
     values[i] = 1 - pixels[i] / 255;
-  auto expected = Matrix(1, n, values);
+  auto expected = s21::Matrix(1, n, values);
   auto from_img = img.ToVector();
 
   // then

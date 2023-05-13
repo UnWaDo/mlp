@@ -113,7 +113,7 @@ TEST(Matrix, transpose_4x3_where_did_not_change) {
       " [7, 5, 2]]");
   auto exp = s21::Matrix::parse(
       "[[5, 0, 7],"
-      " [2, 0, 8]," // 1
+      " [2, 1, 8],"
       " [6, 8, 5],"
       " [7, 5, 2]]");
 
