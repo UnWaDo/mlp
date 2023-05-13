@@ -9,7 +9,7 @@
 TEST(Matrix, description_3x3) {
 
   // given
-  auto sut = Matrix::parse(
+  auto sut = s21::Matrix::parse(
       "[[5, 0, 222],"
       " [1, -72, 5],"
       " [-8, 3, 0]]");
@@ -29,7 +29,7 @@ TEST(Matrix, description_3x3_with_separator) {
 
   // given
   auto separator("_SEPARATOR_");
-  auto sut = Matrix::parse(
+  auto sut = s21::Matrix::parse(
       "[[5, 0, 222],"
       " [1, -72, 5],"
       " [-8, 3, 0]]");
@@ -48,7 +48,7 @@ TEST(Matrix, description_3x3_with_separator) {
 TEST(Matrix, description_3x4) {
 
   // given
-  auto sut = Matrix::parse(
+  auto sut = s21::Matrix::parse(
       "[[5, 0, 777, 2],"
       " [1, -84, 6, 8],"
       " [5, 7, 5, 2]]");
@@ -68,7 +68,7 @@ TEST(Matrix, description_3x4_with_separator) {
 
   // given
   auto separator("_SEPARATOR_");
-  auto sut = Matrix::parse(
+  auto sut = s21::Matrix::parse(
       "[[5, 0, 777, 2],"
       " [1, -84, 6, 8],"
       " [5, 7, 5, 2]]");
@@ -87,7 +87,7 @@ TEST(Matrix, description_3x4_with_separator) {
 TEST(Matrix, description_4x3) {
 
   // given
-  auto sut = Matrix::parse(
+  auto sut = s21::Matrix::parse(
       "[[5, 0, 777],"
       " [26, 1, -8],"
       " [6, 8, -59],"
@@ -109,7 +109,7 @@ TEST(Matrix, description_4x3_with_separator) {
 
   // given
   auto separator("_SEPARATOR_");
-  auto sut = Matrix::parse(
+  auto sut = s21::Matrix::parse(
       "[[5, 0, 777],"
       " [26, 1, -8],"
       " [6, 8, -59],"

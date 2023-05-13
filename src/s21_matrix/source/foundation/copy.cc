@@ -4,7 +4,9 @@
 
 #include "s21_matrix.h"
 
-void Matrix::copy(const Matrix& other) {
+namespace s21 {
+
+void Matrix::copy(const Matrix &other) {
 
   auto size = other.m() * other.n();
 
@@ -25,4 +27,5 @@ void Matrix::copy(const Matrix& other) {
 
     _data[i] = other_data[i];
   }
+}
 }

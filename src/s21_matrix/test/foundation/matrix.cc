@@ -14,7 +14,7 @@ TEST(Matrix, constructor_m_n_where_check_m) {
   auto exp = 1;
 
   // when
-  auto returned = Matrix(m, n);
+  auto returned = s21::Matrix(m, n);
 
   // then
   EXPECT_EQ(exp, returned.m());
@@ -28,7 +28,7 @@ TEST(Matrix, constructor_m_n_where_check_n) {
   auto exp = 2;
 
   // when
-  auto returned = Matrix(m, n);
+  auto returned = s21::Matrix(m, n);
 
   // then
   EXPECT_EQ(exp, returned.n());
@@ -43,7 +43,7 @@ TEST(Matrix, constructor_m_n_data_where_check_m) {
   auto exp = 1;
 
   // when
-  auto returned = Matrix(m, n, data);
+  auto returned = s21::Matrix(m, n, data);
 
   // then
   EXPECT_EQ(exp, returned.m());
@@ -58,7 +58,7 @@ TEST(Matrix, constructor_m_n_data_where_check_n) {
   auto exp = 2;
 
   // when
-  auto returned = Matrix(m, n, data);
+  auto returned = s21::Matrix(m, n, data);
 
   // then
   EXPECT_EQ(exp, returned.n());
@@ -73,7 +73,7 @@ TEST(Matrix, constructor_m_n_data_where_check_data) {
   auto exp = data;
 
   // when
-  auto returned = Matrix(m, n, data);
+  auto returned = s21::Matrix(m, n, data);
 
   // then
   EXPECT_EQ(exp, returned.data());
@@ -82,11 +82,11 @@ TEST(Matrix, constructor_m_n_data_where_check_data) {
 TEST(Matrix, constructor_copy) {
 
   // given
-  auto matrix = Matrix(2, 3, new float[6]{1, 2, 4, 6, 4, 3});
-  auto exp = Matrix(2, 3, new float[6]{1, 2, 4, 6, 4, 3});
+  auto matrix = s21::Matrix(2, 3, new float[6]{1, 2, 4, 6, 4, 3});
+  auto exp = s21::Matrix(2, 3, new float[6]{1, 2, 4, 6, 4, 3});
 
   // when
-  auto returned = Matrix(matrix);
+  auto returned = s21::Matrix(matrix);
 
   // then
   EXPECT_EQ(exp, returned);
@@ -95,11 +95,11 @@ TEST(Matrix, constructor_copy) {
 TEST(Matrix, constructor_copy_where_data_for_different_addresses) {
 
   // given
-  auto matrix = Matrix(2, 3, new float[6]{1, 2, 4, 6, 4, 3});
-  auto exp = Matrix(2, 3, new float[6]{1, 2, 4, 6, 4, 3});
+  auto matrix = s21::Matrix(2, 3, new float[6]{1, 2, 4, 6, 4, 3});
+  auto exp = s21::Matrix(2, 3, new float[6]{1, 2, 4, 6, 4, 3});
 
   // when
-  auto returned = Matrix(matrix);
+  auto returned = s21::Matrix(matrix);
 
   // then
   EXPECT_TRUE(exp.data() != returned.data());

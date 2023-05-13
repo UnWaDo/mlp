@@ -30,5 +30,6 @@ class Perceptron {
 };
 }
 
+using namespace s21;
 
 #endif //CPP7_MLP_1_SRC_S21_PERCEPTRON_INCLUDE_S21_PERCEPTRON_H_

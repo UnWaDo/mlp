@@ -25,4 +25,6 @@ Matrix Softmax(const Matrix&);
 
 }
 
+using namespace s21;
+
 #endif //CPP7_MLP_1_SRC_S21_PERCEPTRON_INCLUDE_S21_UTILS_H_

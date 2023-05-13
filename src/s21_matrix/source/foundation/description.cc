@@ -4,12 +4,14 @@
 
 #include "s21_matrix.h"
 
+namespace s21 {
+
 std::string Matrix::description() const {
 
   return description(" ");
 }
 
-std::string Matrix::description(const std::string& separator) const {
+std::string Matrix::description(const std::string &separator) const {
 
   auto description = std::string("[[");
   auto _separator = "]," + separator + "[";
@@ -20,7 +22,7 @@ std::string Matrix::description(const std::string& separator) const {
 
   for (auto i(0); i < _m; i += 1) {
     for (auto j(0); j < _n; j += 1) {
-      
+
       description += std::to_string(_data[i * _n + j]);
       description += j != end_n ? ", " : "";
     }
@@ -29,4 +31,5 @@ std::string Matrix::description(const std::string& separator) const {
   }
 
   return description;
+}
 }

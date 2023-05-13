@@ -2,7 +2,7 @@
 #include "s21_matrix.h"
 
 
-Matrix s21::Image::ToVector() {
+s21::Matrix s21::Image::ToVector() {
   auto matrix = Matrix(1, width_ * height_);
   auto max_color = (1 << bits_per_pixel_) - 1;
   auto data = matrix[0];
