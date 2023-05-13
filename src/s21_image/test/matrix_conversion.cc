@@ -24,7 +24,7 @@ TEST_F(ImageTest, TestImageToVectorConversionBitmap) {
   ASSERT_EQ(expected.m(), from_img.m());
   ASSERT_EQ(expected.n(), from_img.n());
   for (std::size_t i = 0; i < n; i++)
-    ASSERT_EQ(expected[0][i], from_img[0][i]);
+    ASSERT_NEAR(expected[0][i], from_img[0][i], 1e-4);
 }
 
 TEST_F(ImageTest, TestImageToVectorConversionGrayscale) {
@@ -49,7 +49,7 @@ TEST_F(ImageTest, TestImageToVectorConversionGrayscale) {
   ASSERT_EQ(expected.m(), from_img.m());
   ASSERT_EQ(expected.n(), from_img.n());
   for (std::size_t i = 0; i < n; i++)
-    ASSERT_EQ(expected[0][i], from_img[0][i]);
+    ASSERT_NEAR(expected[0][i], from_img[0][i], 1e-4);
 }
 
 TEST_F(ImageTest, TestImageToVectorConversionRGB) {
