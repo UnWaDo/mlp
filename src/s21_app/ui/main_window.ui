@@ -379,6 +379,13 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QPushButton" name="training_history_">
+         <property name="text">
+          <string>Показать историю обучения</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
     </layout>

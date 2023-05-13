@@ -20,6 +20,7 @@ include_directories(../s21_batch_data/include)
 include_directories(../s21_image/include)
 include_directories(../s21_matrix/include)
 include_directories(../s21_perceptron/include)
+include_directories(../dependencies/qcustomplot)
 
 find_package(Qt6 COMPONENTS
         Core
@@ -54,6 +55,9 @@ add_library(
 
         source/s21_progress_window.cc
         ui/progress_window.ui
+
+        source/s21_training_history.cc
+        include/s21_training_history.h
 )
 
 target_link_libraries(
@@ -85,4 +89,5 @@ target_link_libraries(
         s21_image
         s21_perceptron
         s21_matrix
+        qcustomplot
 )

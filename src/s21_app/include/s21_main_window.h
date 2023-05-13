@@ -43,6 +43,8 @@ namespace s21 {
       void TrainingFinished(std::time_t t, MetricValues& m);
       void CrossValidationFinished(std::time_t t, MetricValues& m);
 
+      void ShowTrainingHistory();
+
       void InvalidPath(QString path);
 
     private:

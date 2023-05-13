@@ -63,14 +63,17 @@ void s21::MainController::LaunchTraining(MainWindow *w, MainModel *m) {
 
   QObject::connect(m, &s21::MainModel::IterationPassed,
                    training, &s21::ProgressWindow::ProcessIteration);
+  QObject::connect(m, &s21::MainModel::TrainingFinished,
+                   training, &s21::ProgressWindow::ProcessIteration);
 
-  QObject::connect(training, &s21::ProgressWindow::destroyed,
-                   w, [&](){
+  QObject::connect(training, &s21::ProgressWindow::rejected,
+                   w, [=](){
                     *do_continue = false;
                    });
 
-  std::thread myThread([&](){
+  std::thread myThread([&, do_continue](){
     m->LaunchTraining(w->GetTrainingEpochs(), do_continue);
+    delete do_continue;
   });
   myThread.detach();
 
@@ -95,13 +98,14 @@ void s21::MainController::LaunchCrossValidation(MainWindow *w, MainModel *m) {
   QObject::connect(m, &s21::MainModel::IterationPassed,
                    validation, &s21::ProgressWindow::ProcessIteration);
 
-  QObject::connect(validation, &s21::ProgressWindow::destroyed,
-                   w, [&](){
+  QObject::connect(validation, &s21::ProgressWindow::rejected,
+                   w, [=](){
                     *do_continue = false;
                    });
 
-  std::thread myThread([&](){
-    m->LaunchTraining(w->GetTrainingEpochs(), do_continue);
+  std::thread myThread([&, k, do_continue](){
+    m->LaunchCrossValidation(k, w->GetTrainingEpochs(), do_continue);
+    delete do_continue;
   });
   myThread.detach();
 
@@ -122,7 +126,7 @@ void s21::MainController::LaunchValidation(MainWindow *w, MainModel *m) {
   QObject::connect(m, &s21::MainModel::IterationPassed,
                    validation, &s21::ProgressWindow::ProcessIteration);
 
-  std::thread myThread([&](){
+  std::thread myThread([&, alpha](){
     m->LaunchValidation(alpha, w->GetValidationIterations());
   });
   myThread.detach();

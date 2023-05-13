@@ -67,7 +67,6 @@ MetricValues s21::BatchData::KCrossValidation(Perceptron &perceptron, std::size_
     Train(perceptron, k, batch_id, nullptr, do_continue);
 
     if (do_continue != nullptr && *do_continue == false) {
-      delete do_continue;
       return metric;
     }
 
@@ -79,12 +78,11 @@ MetricValues s21::BatchData::KCrossValidation(Perceptron &perceptron, std::size_
     metric += batch_metric;
 
     if (do_continue != nullptr && *do_continue == false) {
-      delete do_continue;
       return metric;
     }
 
     if (f != nullptr)
-      f(batch_id + 1, metric);
+      f(batch_id + 1, batch_metric);
 
   }
 

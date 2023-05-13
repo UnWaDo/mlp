@@ -37,6 +37,10 @@ std::size_t s21::MainModel::GetDataSize() const {
   return data_.GetDataSize();
 }
 
+const std::vector<s21::MetricValues> &s21::MainModel::GetTrainingHistory() const {
+  return training_history_;
+}
+
 void s21::MainModel::PredictImage(QString path) {
 
   if (path == nullptr)
@@ -93,6 +97,7 @@ void s21::MainModel::InitializePerceptron()
     delete perceptron_;
   perceptron_ = new_perceptron;
 
+  training_history_.clear();
   emit PerceptronModified(perceptron_params_, perceptron_type_);
 }
 
@@ -151,15 +156,13 @@ void s21::MainModel::LaunchTraining(std::size_t epochs, bool *do_continue) {
 
   data_.Train(*perceptron_, [&](std::size_t e, s21::MetricValues m){
     std::cout << e << " " << m << std::endl;
+    training_history_.push_back(m);
     emit IterationPassed(e, m);
   }, do_continue);
 
   auto m = data_.Validate(*perceptron_);
 
   emit TrainingFinished(std::time(nullptr) - start, m);
-
-  if (do_continue != nullptr)
-    delete do_continue;
 }
 
 void s21::MainModel::LaunchCrossValidation(std::size_t k, std::size_t epochs,
@@ -181,9 +184,6 @@ void s21::MainModel::LaunchCrossValidation(std::size_t k, std::size_t epochs,
   average /= k;
 
   emit CrossValidationFinished(std::time(nullptr) - start, average);
-
-  if (do_continue != nullptr)
-    delete do_continue;
 }
 
 void s21::MainModel::LaunchValidation(float alpha, std::size_t iterations) {

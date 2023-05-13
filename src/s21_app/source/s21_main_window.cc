@@ -2,6 +2,7 @@
 #include "s21_main_controller.h"
 #include "s21_matrix_perceptron.h"
 #include "s21_graph_perceptron.h"
+#include "s21_training_history.h"
 #include "ui_main_window.h"
 
 #include <thread>
@@ -70,6 +71,8 @@ s21::MainWindow::MainWindow(QWidget *parent) : image_(nullptr) {
 
   QObject::connect(model_, &MainModel::InvalidPath,
                    this, &MainWindow::InvalidPath);
+
+  QObject::connect(ui_->training_history_, &QPushButton::clicked, this, &MainWindow::ShowTrainingHistory);
 
   model_->InitializePerceptron();
 
@@ -179,6 +182,15 @@ void s21::MainWindow::CrossValidationFinished(std::time_t t, MetricValues &m) {
                      << "F-мера: " << m.f_measure;
 
   ui_->training_description_->setText(text);
+
+}
+
+void s21::MainWindow::ShowTrainingHistory() {
+
+  auto graph = new TrainingHistoryWindow(this);
+
+  graph->ShowTrainingHistory(model_->GetTrainingHistory());
+  graph->exec();
 
 }
 

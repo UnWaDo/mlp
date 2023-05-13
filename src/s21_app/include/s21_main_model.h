@@ -25,6 +25,7 @@ namespace s21 {
       ~MainModel();
 
       std::size_t GetDataSize() const;
+      const std::vector<MetricValues>& GetTrainingHistory() const;
 
     public slots:
       void PredictImage(QString path);
@@ -63,6 +64,7 @@ namespace s21 {
       std::string perceptron_type_;
       Perceptron *perceptron_;
       BatchData data_;
+      std::vector<MetricValues> training_history_;
   };
 
 }
