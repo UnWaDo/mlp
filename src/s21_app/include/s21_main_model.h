@@ -27,6 +27,8 @@ namespace s21 {
       std::size_t GetDataSize() const;
 
     public slots:
+      void PredictImage(QString path);
+
       void LoadData(QString path);
       void CleanData();
       void SetPerceptronParameters(Perceptron::Parameters& params,
@@ -41,6 +43,8 @@ namespace s21 {
       void StopTraining(bool *controller);
     
     signals:
+      void ImagePredicted(char c);
+
       void DataLoaded(QString path, BatchData&);
       void DataCleaned();
 

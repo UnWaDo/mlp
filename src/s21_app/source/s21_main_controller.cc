@@ -25,11 +25,21 @@ void s21::MainController::LoadPerceptron(MainWindow *w, MainModel *m) {
   m->LoadPerceptron(folderPath);
 }
 
-void s21::MainController::LoadData(MainWindow *w, MainModel *m) {
-  QString filePath = QFileDialog::getOpenFileName(
+void s21::MainController::SelectImage(MainWindow *w, MainModel *m) {
+
+  QString file_path = QFileDialog::getOpenFileName(
+      w, "Выберите файл", "", "BMP images (*.bmp)");
+
+  w->ImageSelected(file_path);
+  m->PredictImage(file_path);
+}
+
+void s21::MainController::LoadData(MainWindow *w, MainModel *m)
+{
+  QString file_path = QFileDialog::getOpenFileName(
       w, "Выберите файл", "", "All files (*.*)");
 
-  m->LoadData(filePath);
+  m->LoadData(file_path);
 }
 
 void s21::MainController::CleanData(MainWindow *w, MainModel *m) {

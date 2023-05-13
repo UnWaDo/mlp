@@ -1,6 +1,7 @@
 #include "s21_main_model.h"
 #include "s21_matrix_perceptron.h"
 #include "s21_graph_perceptron.h"
+#include "s21_image.h"
 
 #include <thread>
 #include <iostream>
@@ -34,6 +35,38 @@ s21::MainModel::~MainModel() {
 
 std::size_t s21::MainModel::GetDataSize() const {
   return data_.GetDataSize();
+}
+
+void s21::MainModel::PredictImage(QString path) {
+
+  if (path == nullptr)
+    return ;
+
+  s21::Image *image;
+  try {
+    image = new s21::Image(path.toStdString());
+  }
+  catch (...) {
+    emit InvalidPath(path);
+    return ;
+  }
+
+
+  image->Rescale(28, 28);
+  image->ToGrayscale();
+
+  auto prediction = perceptron_->ForwardPropagation(image->ToVector());
+std::cout << prediction << std::endl;
+  int max_idx = 0;
+  for (int i = 0; i < prediction.n(); i++) {
+
+    if (prediction[0][i] > prediction[0][max_idx])
+      max_idx = i;
+  }
+
+  delete image;
+
+  emit ImagePredicted('a' + max_idx);
 }
 
 void s21::MainModel::SetPerceptronParameters(Perceptron::Parameters& params, std::string_view type) {

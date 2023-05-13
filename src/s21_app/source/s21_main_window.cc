@@ -10,7 +10,7 @@
 #include <QInputDialog>
 #include <QMessageBox>
 
-s21::MainWindow::MainWindow(QWidget *parent) {
+s21::MainWindow::MainWindow(QWidget *parent) : image_(nullptr) {
 
   ui_ = new s21::Ui::MainWindow;
   ui_->setupUi(this);
@@ -23,6 +23,10 @@ s21::MainWindow::MainWindow(QWidget *parent) {
 
   player_->setSource(QUrl::fromLocalFile("/Users/ivnvtosh/Desktop/done.m4a"));
   audioOutput->setVolume(50);
+
+  QObject::connect(ui_->select_image_, &QPushButton::clicked, [&]{
+    s21::MainController::SelectImage(this, model_);
+  });
 
   QObject::connect(ui_->load_data_, &QPushButton::clicked, [&]{
     s21::MainController::LoadData(this, model_);
@@ -50,6 +54,8 @@ s21::MainWindow::MainWindow(QWidget *parent) {
   QObject::connect(ui_->start_cross_validation_, &QPushButton::clicked, this, [&]{
     s21::MainController::LaunchCrossValidation(this, model_);
   });
+
+  QObject::connect(model_, &MainModel::ImagePredicted, this, &MainWindow::ImagePredicted);
 
   QObject::connect(model_, &MainModel::DataLoaded, this, &MainWindow::DataLoaded);
   QObject::connect(model_, &MainModel::DataCleaned, this, &MainWindow::DataCleaned);
@@ -79,7 +85,32 @@ std::size_t s21::MainWindow::GetValidationIterations() const {
   return ui_->validation_repeats_->value();
 }
 
-void s21::MainWindow::DataLoaded(QString path, BatchData& d) {
+void s21::MainWindow::ImageSelected(QString path) {
+
+  ui_->image_holder_->clear();
+
+  if (image_ != nullptr)
+    delete image_;
+
+  if (path == nullptr) {
+    
+    image_ = nullptr;
+    return ;
+  }
+
+  image_ = new QPixmap(path);
+  ui_->image_holder_->setPixmap(*image_);
+}
+
+
+void s21::MainWindow::ImagePredicted(char c) {
+  QString text;
+  QTextStream(&text) << "На этой картинке буква " << c;
+  ui_->image_prediction_->setText(text);
+}
+
+void s21::MainWindow::DataLoaded(QString path, BatchData &d)
+{
 
   QString text;
   QTextStream(&text) << "Данные из файла " << path << "\n"
@@ -87,7 +118,6 @@ void s21::MainWindow::DataLoaded(QString path, BatchData& d) {
 
   ui_->data_description_->setText(text);
   ui_->data_description_->setAlignment(Qt::AlignHCenter);
-
 }
 
 void s21::MainWindow::DataCleaned() {

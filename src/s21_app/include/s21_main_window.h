@@ -31,6 +31,9 @@ namespace s21 {
       std::size_t GetValidationIterations() const;
 
     public slots:
+      void ImageSelected(QString path);
+      void ImagePredicted(char c);
+
       void DataLoaded(QString path, BatchData&);
       void DataCleaned();
 
@@ -46,6 +49,7 @@ namespace s21 {
       Ui::MainWindow *ui_;
       QMediaPlayer *player_;
       MainModel *model_;
+      QPixmap *image_;
   };
 
   class ProgressWindow : public QDialog {
