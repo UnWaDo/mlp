@@ -56,7 +56,7 @@ void s21::MainModel::PredictImage(QString path) {
   image->ToGrayscale();
 
   auto prediction = perceptron_->ForwardPropagation(image->ToVector());
-std::cout << prediction << std::endl;
+
   int max_idx = 0;
   for (int i = 0; i < prediction.n(); i++) {
 
