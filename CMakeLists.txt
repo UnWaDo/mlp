@@ -14,6 +14,7 @@ enable_testing()
 
 add_subdirectory(src/s21_app)
 
+add_subdirectory(src/dependencies/qcustomplot)
 add_subdirectory(src/s21_image)
 add_subdirectory(src/s21_matrix)
 add_subdirectory(src/s21_perceptron)
