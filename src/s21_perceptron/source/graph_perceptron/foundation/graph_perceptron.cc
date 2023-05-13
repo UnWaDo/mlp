@@ -8,9 +8,52 @@
 #include "s21_graph_perceptron.h"
 #include "s21_utils.h"
 
-//MatrixPerceptron::MatrixPerceptron(const s21::Perceptron::Parameters& parameters) {
-//  (void)parameters;
-//}
+GraphPerceptron::GraphPerceptron(const s21::Perceptron::Parameters& parameters) {
+
+  _number_of_layers = parameters.number_of_layers;
+  _number_of_hidden_layers = _number_of_layers > 2 ? _number_of_layers - 2 : 0;
+  _number_of_neurons_in_layers = new int[_number_of_layers];
+
+  for (auto i(0); i < _number_of_layers; i += 1) {
+
+    _number_of_neurons_in_layers[i] = parameters.number_of_neurons_in_layer[i];
+  }
+
+  _alpha = parameters.alpha;
+  _activation_name = parameters.activation_name;
+
+  if (_activation_name == "Relu") {
+
+    _activation = s21::Relu;
+    _derivedActivation = s21::DerivedRelu;
+
+  } else if (_activation_name == "Sigmoid") {
+
+    _activation = s21::Sigmoid;
+    _derivedActivation = s21::DerivedSigmoid;
+
+  } else {
+
+    throw "invalid_activation_name";
+  }
+
+  for (auto i(0); i < _number_of_layers - 1; i += 1) {
+
+    auto weight = s21::RandomMatrix(_number_of_neurons_in_layers[i], _number_of_neurons_in_layers[i + 1]);
+    auto bias = s21::RandomMatrix(1, _number_of_neurons_in_layers[i + 1]);
+
+    auto* layer = new Layer(weight, bias);
+
+    if (layers_) {
+
+      layers_->get_last_layer()->next = layer;
+
+    } else {
+
+      layers_ = layer;
+    }
+}
+}
 
 GraphPerceptron::GraphPerceptron(const std::string& name, const std::string& path) {
 
@@ -74,6 +117,7 @@ void GraphPerceptron::parse_info(const std::string& bundle) {
   } else if (_activation_name == "Sigmoid") {
 
     _activation = s21::Sigmoid;
+    _derivedActivation = s21::DerivedSigmoid;
 
   } else {
 
@@ -157,7 +201,3 @@ Matrix* GraphPerceptron::parse_layer(const std::string& bundle,
 
   return array_of_matrices;
 }
-
-//GraphPerceptron::GraphPerceptron(const GraphPerceptron& other) {
-//  (void)other;
-//}

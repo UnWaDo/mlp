@@ -46,22 +46,25 @@ class GraphPerceptron : public s21::Perceptron {
 
       for (auto i(0); i < n; i += 1) {
 
-        auto neuron = Neuron();
-
-        neuron.weight = new float[n];
-        neuron.bias = new float[n];
+        neurons[i] = Neuron();
+        neurons[i].weight = new float[n];
+        neurons[i].bias = new float[n];
 
         for (auto j(0); j < m; j += 1) {
 
-          neuron.weight[j] = weight[i][j];
-          neuron.bias[j] = bias[0][j];
+          neurons[i].weight[j] = weight[i][j];
+          neurons[i].bias[j] = bias[0][j];
         }
       }
     }
 
-    inline Layer *get_last_layer() {
+    inline ~Layer() {
+      delete[] neurons;
+    }
 
-      Layer *layer = this;
+    inline Layer* get_last_layer() {
+
+      Layer* layer = this;
 
       if (layer == nullptr) {
 
@@ -89,8 +92,15 @@ class GraphPerceptron : public s21::Perceptron {
     float _dE_dw;
     float _dE_db;
 
-    Layer *next_layer;
-    Layer *previous_layer;
+    inline Neuron() {
+      weight = nullptr;
+      bias = nullptr;
+    }
+
+    inline ~Neuron() {
+      delete[] weight;
+      delete[] bias;
+    }
   };
 
   int _number_of_layers;
@@ -108,6 +118,7 @@ class GraphPerceptron : public s21::Perceptron {
 
   Layer *layers_ = nullptr;
 
+  void input_layer(const Matrix& x);
   void parse_info(const std::string &bundle);
   void parse_layer(const std::string &bundle);
   [[nodiscard]] Matrix *parse_layer(const std::string &bundle,

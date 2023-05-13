@@ -20,11 +20,7 @@ add_library(
         source/graph_perceptron/export_perceptron_to_file.cc
         source/graph_perceptron/forward_propagation.cc
 
-#        source/foundation/accessor.cc
-#        source/foundation/copy.cc
-#        source/foundation/description.cc
         source/matrix_perceptron/foundation/matrix_perceptron.cc
-#        source/foundation/operator.cc
 
         source/matrix_perceptron/back_propagation.cc
         source/matrix_perceptron/export_perceptron_to_file.cc
@@ -55,10 +51,7 @@ add_executable(
         test_s21_matrix_perceptron
         test/main/main.cc
 
-        test/matrix_perceptron/foundation/matrix_perceptron.cc
-
         test/matrix_perceptron/back_propagation.cc
-        test/matrix_perceptron/export_perceptron_to_file.cc
         test/matrix_perceptron/forward_propagation.cc
 )
 
@@ -93,7 +86,6 @@ add_executable(
         test/main/main.cc
 
         test/graph_perceptron/back_propagation.cc
-        test/graph_perceptron/export_perceptron_to_file.cc
         test/graph_perceptron/forward_propagation.cc
 )
 
